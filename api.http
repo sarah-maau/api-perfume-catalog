@@ -1,0 +1,8 @@
+@protocol= http
+@domainname= localhost
+@port= {{$dotenv PORT}}
+@path=api
+@baseUrl = {{protocol}}://{{domainname}}:{{port}}/{{path}}
+
+### ROUTE TEST
+GET {{baseUrl}}
