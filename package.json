@@ -1,0 +1,26 @@
+{
+  "name": "api-perfume-catalog",
+  "version": "1.0.0",
+  "description": "Une API REST pour gérer une collection de parfums",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sarah-maau/api-perfume-catalog.git"
+  },
+  "keywords": [
+    "rest",
+    "sqitch",
+    "joi",
+    "pg"
+  ],
+  "author": "Sarah Maury",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/sarah-maau/api-perfume-catalog/issues"
+  },
+  "homepage": "https://github.com/sarah-maau/api-perfume-catalog#readme"
+}
