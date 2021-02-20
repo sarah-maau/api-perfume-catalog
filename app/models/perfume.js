@@ -12,7 +12,6 @@ const db = require('../database');
   * @property {number} intensityId - the id refers to the intensity (concentration)
   * @property {number} genderId - the id refers to the gender
 */
-
 class Perfume {
 
     id;
@@ -48,6 +47,19 @@ class Perfume {
         for (const prop in data) {
             this[prop] = data[prop]
         }
+    }
+
+    /**
+     * findAll : A static and async method which returns all the perfumes from database
+     * @returns {Perfume[]} returns an array of perfume instances (instead of gender / brand / intensity id, it returns the name of them + array of tags and scents) 
+     */
+    static async findAll() {
+        const { rows } = await db.query('SELECT * FROM all_from_perfumes');
+
+        if(!rows) {
+            throw new Error(`Oups aucun parfum trouvé`)
+        }
+        return rows.map(perfume => new Perfume(perfume));
     }
 
 };

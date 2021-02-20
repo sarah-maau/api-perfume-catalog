@@ -4,5 +4,19 @@
 @path=api
 @baseUrl = {{protocol}}://{{domainname}}:{{port}}/{{path}}
 
-### ROUTE TEST
-GET {{baseUrl}}
+# GET /all
+
+### GET/perfumes
+GET {{baseUrl}}/perfumes
+
+### GET/genders
+GET {{baseUrl}}/genders
+
+### GET/intensities
+GET {{baseUrl}}/intensities
+
+### GET/scents
+GET {{baseUrl}}/scents
+
+### GET/tags
+GET {{baseUrl}}/tags
