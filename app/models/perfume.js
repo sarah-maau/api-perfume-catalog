@@ -14,6 +14,7 @@ const db = require('../database');
 */
 
 class Perfume {
+
     id;
     name;
     creator;
@@ -39,6 +40,10 @@ class Perfume {
         this.genderId = val;
     }
 
+    /**
+     * Creates a perfume
+     * @param {Perfume} Perfume
+    */
     constructor (data = {}) {
         for (const prop in data) {
             this[prop] = data[prop]
