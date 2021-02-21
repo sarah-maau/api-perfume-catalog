@@ -23,6 +23,27 @@ const genderController = {
         }
     },
 
+    /**
+     * Middleware function diplays one gender (according to the given id in request param) and the associated perfumes
+     * @module oneGender
+     * @function async
+     * @param {Express.Request} [request] - the object representing the request
+     * @param {Express.Response} response - the object representing the response
+     * @returns {JSON[]} - the gender found
+     */
+    oneGender: async (req, res) => {
+        const { id } = req.params;
+
+        try {
+            const gender = await Gender.findOne(id);
+            res.json(gender);
+        }
+        catch (error) {
+            res.status(400).json(error.message);
+        }
+    },
+
+
 };
 
 module.exports = genderController;

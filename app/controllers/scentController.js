@@ -21,7 +21,27 @@ const scentController = {
         catch (error) {
             res.status(400).json(error.message);
         }
-    }
+    },
+
+    /**
+     * Middleware function diplays one scent (according to the given id in request param) and the associated perfumes
+     * @module oneScent
+     * @function async
+     * @param {Express.Request} [request] - the object representing the request
+     * @param {Express.Response} response - the object representing the response
+     * @returns {JSON[]} - the scent found
+     */
+    oneScent: async (req, res) => {
+        const { id } = req.params;
+
+        try {
+            const scent = await Scent.findOne(id);
+            res.json(scent);
+        }
+        catch (error) {
+            res.status(400).json(error.message);
+        }
+    },
 
 };
 

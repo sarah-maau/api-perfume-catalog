@@ -62,6 +62,20 @@ class Perfume {
         return rows.map(perfume => new Perfume(perfume));
     }
 
+    /**
+     * findOne : A static and async method which returns the requested perfume and an array of the associated tags and scents
+     * @param {Number} id - the perfume id (from the request)
+     * @returns {Perfume} returns an instance of perfume (+ an array of associated tags and scents)
+     */
+    static async findOne(id) {
+        const { rows } = await db.query('SELECT * FROM one_perfume($1)', [id]);
+        
+        if (!rows[0]) {
+            throw new Error(`Oups, il n'y a pas de parfum dont l'id est ${id}`)
+        }
+        return new Perfume(rows[0]);
+    }
+
 };
 
 module.exports = Perfume;

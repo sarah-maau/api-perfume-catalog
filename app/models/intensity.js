@@ -33,6 +33,19 @@ class Intensity {
         return rows.map(intensity => new Intensity(intensity));
     }
 
+    /**
+     * findOne : A static and async method which returns the requested intensity and an array of the associated perfumes' name
+     * @param {Number} id - the intensity id (from the request)
+     * @returns {Intensity} returns an instance of intensity (+ an array of associated perfumes' name)
+     */
+    static async findOne(id) {
+        const { rows } = await db.query('SELECT * FROM one_intensity($1)', [id]);
+
+        if(!rows [0]) {
+            throw new Error(`Oups il n'y a pas de parfum correspondant au type de concentration ${id}`);
+        }
+        return new Intensity(rows[0]);
+    }
 
 };
 

@@ -33,6 +33,20 @@ class Gender {
         return rows.map(gender => new Gender(gender));
     }
 
+    /**
+     * findOne : A static and async method which returns the requested gender and an array of the associated perfumes' name
+     * @param {Number} id - the gender id (from the request)
+     * @returns {Gender} returns an instance of gender (+ an array of associated perfumes' name)
+     */
+    static async findOne(id) {
+        const { rows } = await db.query('SELECT * FROM one_gender($1)', [id]);
+        
+        if(!rows[0]) {
+            throw new Error(`Oups il n'y a pas de parfum correspondant au genre ${id}`);
+        }
+        return new Gender(rows[0]);
+    }
+
 };
 
 module.exports = Gender;

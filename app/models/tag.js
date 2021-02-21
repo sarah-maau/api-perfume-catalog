@@ -35,6 +35,20 @@ class Tag {
         return rows.map(tag => new Tag(tag));
     }
 
+    /**
+     * findOne : A static and async method which returns the requested tag and an array of the associated perfumes' name
+     * @param {Number} id - the tag id (from the request)
+     * @returns {Tag} returns an instance of tag (+ an array of associated perfumes' name)
+     */
+    static async findOne(id) {
+        const { rows } = await db.query('SELECT * FROM one_tag($1)', [id]);
+        
+        if(!rows[0]) {
+            throw new Error(`Oups il n'y a pas de parfum correspondant au tag ${id}`);
+        }
+        return new Tag(rows[0]);
+    }
+
 };
 
 module.exports = Tag;

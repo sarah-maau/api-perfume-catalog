@@ -20,3 +20,20 @@ GET {{baseUrl}}/scents
 
 ### GET/tags
 GET {{baseUrl}}/tags
+
+# GET /:id
+
+### GET/perfumes/:id
+GET {{baseUrl}}/perfumes/2
+
+### GET/genders/:id
+GET {{baseUrl}}/genders/4
+
+### GET/intensities/:id
+GET {{baseUrl}}/intensities/2
+
+### GET/scents/:id
+GET {{baseUrl}}/scents/3
+
+### GET/tag/:id
+GET {{baseUrl}}/tags/3
