@@ -43,7 +43,7 @@ const perfumeController = {
     },
 
     /**
-     * Middleware function adds one perfume (according to the informations given in body request)
+     * Middleware function adds one perfume (according to the informations given in request body)
      * @module newPerfume
      * @function async
      * @param {Express.Request} [request] - the object representing the request
@@ -63,7 +63,7 @@ const perfumeController = {
     },
 
     /**
-     * Middleware function modifies one perfume (according to the informations given in body and params request)
+     * Middleware function modifies one perfume (according to the informations given in request body and request param)
      * @module updateOnePerfume
      * @function async
      * @param {Express.Request} [request] - the object representing the request
@@ -89,6 +89,30 @@ const perfumeController = {
             res.status(400).json(error.message);
         }
     },
+
+    /**
+     * Middleware function deletes one perfume (according to the given id in request params)
+     * @module deleteOnePerfume
+     * @function async
+     * @param {Express.Request} [request] - the object representing the request
+     * @param {Express.Response} response - the object representing the response
+     * @returns {JSON[]} - success message
+     */
+    deleteOnePerfume: async (req, res) => {
+        const { id } = req.params;
+
+        try {
+            const perfume = await Perfume.findOne(id);
+            await perfume.delete();
+            res.json({ 
+                ok: true,
+                message: `Le parfum ${id} a bien été supprimé`
+            });
+        } 
+        catch(error) {
+            res.status(400).json(error.message);
+        }
+    }
 
 };
 

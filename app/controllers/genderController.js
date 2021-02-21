@@ -44,7 +44,7 @@ const genderController = {
     },
 
     /**
-     * Middleware function adds one gender (according to the informations given in body request)
+     * Middleware function adds one gender (according to the informations given in request body)
      * @module newGender
      * @function async
      * @param {Express.Request} [request] - the object representing the request
@@ -64,7 +64,7 @@ const genderController = {
     },
 
     /**
-     * Middleware function modifies one gender (according to the informations given in body and params request)
+     * Middleware function modifies one gender (according to the given id in request param)
      * @module updateOneGender
      * @function async
      * @param {Express.Request} [request] - the object representing the request
@@ -87,6 +87,29 @@ const genderController = {
         }
     },
 
+    /**
+     * Middleware function deletes one gender (according to the given id in request param)
+     * @module deleteOneGender
+     * @function async
+     * @param {Express.Request} [request] - the object representing the request
+     * @param {Express.Response} response - the object representing the response
+     * @returns {JSON[]} - success message
+     */
+    deleteOneGender: async (req, res) => {
+        const { id } = req.params;
+        
+        try {
+            const gender = await Gender.findOne(id);
+            await gender.delete();
+            res.json({ 
+                ok: true,
+                message: `Le genre ${id} a bien été supprimé`
+            });
+        } 
+        catch(error) {
+            res.status(403).json(error.message);
+        }
+    }
 
 };
 

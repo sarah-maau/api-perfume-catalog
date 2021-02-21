@@ -101,6 +101,13 @@ class Perfume {
         return rows[0];
     }
 
+    /**
+     * delete : An async method which allows to delete an intensity instance
+     */
+    async delete() {
+        return await db.query('DELETE FROM perfume WHERE perfume.id = $1', [this.id]);
+    }
+
 };
 
 module.exports = Perfume;

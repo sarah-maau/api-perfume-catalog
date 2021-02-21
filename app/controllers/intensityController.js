@@ -44,7 +44,7 @@ const intensityController = {
     },
 
     /**
-     * Middleware function adds one intensity (according to the informations given in body request)
+     * Middleware function adds one intensity (according to the informations given in request body)
      * @module newIntensity
      * @function async
      * @param {Express.Request} [request] - the object representing the request
@@ -64,7 +64,7 @@ const intensityController = {
     },
 
     /**
-     * Middleware function modifies one intensity (according to the informations given in body and params request)
+     * Middleware function modifies one intensity (according to the informations given in request body and request param)
      * @module updateOneIntensity
      * @function async
      * @param {Express.Request} [request] - the object representing the request
@@ -87,6 +87,30 @@ const intensityController = {
         }
     },
 
+    /**
+     * Middleware function deletes one intensity (according to the given id in request param)
+     * @module deleteOneIntensity
+     * @function async
+     * @param {Express.Request} [request] - the object representing the request
+     * @param {Express.Response} response - the object representing the response
+     * @returns {JSON[]} - success message
+     */
+    deleteOneIntensity: async (req, res) => {
+        const { id } = req.params;
+
+        try {
+            const intensity = await Intensity.findOne(id);
+            
+            await intensity.delete();
+            res.json({ 
+                ok: true,
+                message: `La concentration ${id} a bien été supprimée`
+            });
+        } 
+        catch(error) {
+            res.status(403).json(error.message);
+        }
+    }
 
 };
 

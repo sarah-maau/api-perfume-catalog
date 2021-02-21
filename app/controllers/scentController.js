@@ -45,7 +45,7 @@ const scentController = {
     },
 
     /**
-     * Middleware function adds one scent (according to the informations given in body request)
+     * Middleware function adds one scent (according to the informations given in request body)
      * @module newScent
      * @function async
      * @param {Express.Request} [request] - the object representing the request
@@ -90,7 +90,7 @@ const scentController = {
     },
 
     /**
-     * Middleware function modifies one scent (according to the informations given in body and params request)
+     * Middleware function modifies one scent (according to the informations given in request body and request param)
      * @module updateOneScent
      * @function async
      * @param {Express.Request} [request] - the object representing the request
@@ -112,6 +112,56 @@ const scentController = {
             res.status(403).json(error.message);
         }
     },
+
+    /**
+     * Middleware function deletes one scent (according to the given id in request param)
+     * @module deleteOneScent
+     * @function async
+     * @param {Express.Request} [request] - the object representing the request
+     * @param {Express.Response} response - the object representing the response
+     * @returns {JSON[]} - success message
+     */
+    deleteOneScent: async (req, res) => {
+        const { id } = req.params;
+
+        try {
+            
+            const scent = await Scent.findOne(id);
+            await scent.delete();
+            res.json({ 
+                ok: true,
+                message: `La senteur ${id} a bien été supprimée`
+            });
+        } 
+        catch(error) {
+            res.status(403).json(error.message);
+        }
+    },
+
+    /**
+     * Middleware function deletes one association between a perfume and a scent (according to given ids request param)
+     * @module removeAssociation
+     * @function async
+     * @param {Express.Request} [request] - the object representing the request
+     * @param {Express.Response} response - the object representing the response
+     * @returns {JSON[]} - success message
+     */
+    removeAssociation: async (req, res) => {
+        const { perfumeId, scentId } = req.params;
+
+        try {
+            const scent = await PerfumeHasScent.findOne(perfumeId, scentId);
+            await scent.delete();
+            res.json({ 
+                ok: true,
+                message: `L'association entre le parfum ${perfumeId} et la senteur ${scentId} a bien été supprimée`
+            });
+        } 
+        catch(error) {
+            res.status(403).json(error.message);
+        }
+    },
+
 
 };
 

@@ -69,6 +69,13 @@ class Tag {
         return rows[0];
     }
 
+    /**
+     * delete : An async method which allows to delete a tag instance
+     */
+    async delete () {
+        return await db.query('DELETE FROM tag WHERE tag.id = $1', [this.id]);
+    }
+
 };
 
 module.exports = Tag;

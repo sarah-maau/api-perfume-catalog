@@ -45,7 +45,7 @@ const tagController = {
     },
 
     /**
-     * Middleware function adds one tag (according to the informations given in body request)
+     * Middleware function adds one tag (according to the informations given in request body)
      * @module newTag
      * @function async
      * @param {Express.Request} [request] - the object representing the request
@@ -65,7 +65,7 @@ const tagController = {
     },
 
     /**
-     * Middleware function adds one association between a perfume (according to id in request param) and a tag (according to the informations given in body request)
+     * Middleware function adds one association between a perfume (according to id in request param) and a tag (according to the informations given in request body)
      * @module newAssociation
      * @function async
      * @param {Express.Request} [request] - the object representing the request
@@ -81,7 +81,6 @@ const tagController = {
         const newAssociation = new PerfumeHasTag(data);
 
         try {
-
             await newAssociation.save();
             res.json(newAssociation);
         }
@@ -91,7 +90,7 @@ const tagController = {
     },
 
     /**
-     * Middleware function modifies one tag (according to the informations given in body and params request)
+     * Middleware function modifies one tag (according to the informations given in request param)
      * @module updateOneTag
      * @function async
      * @param {Express.Request} [request] - the object representing the request
@@ -119,6 +118,56 @@ const tagController = {
             res.status(400).json(error.message);
         }
     },
+
+    /**
+     * Middleware function deletes one scent (according to the given id in request param)
+     * @module deleteOneTag
+     * @function async
+     * @param {Express.Request} [request] - the object representing the request
+     * @param {Express.Response} response - the object representing the response
+     * @returns {JSON[]} - success message
+     */
+    deleteOneTag: async (req, res) => {
+        const { id } = req.params;
+
+        try {
+            const tag = await Tag.findOne(id);
+            await tag.delete();
+            res.json({ 
+                ok: true,
+                message: `Le tag ${id} a bien été supprimé`
+            });
+        } 
+        catch(error) {
+            res.status(403).json(error.message);
+        }
+        
+    },
+
+    /**
+     * Middleware function deletes one association between a perfume and a tag (according to given ids in request param)
+     * @module removeAssociation
+     * @function async
+     * @param {Express.Request} [request] - the object representing the request
+     * @param {Express.Response} response - the object representing the response
+     * @returns {JSON[]} - success message
+     */
+    removeAssociation: async (req, res) => {
+        const { perfumeId, tagId } = req.params;
+
+        try {
+            const association = await PerfumeHasTag.findOne(perfumeId, tagId);
+            await association.delete();
+            res.json({ 
+                ok: true,
+                message: `L'association entre le parfum ${perfumeId} et le tag ${tagId} a bien été supprimée`
+            });
+
+        } 
+        catch(error) {
+            res.status(403).json(error.message);
+        }
+    }
 
 
 };

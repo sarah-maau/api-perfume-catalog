@@ -43,7 +43,14 @@ router.route('/perfumes/:id(\\d+)')
      * @summary Modifies a perfume according to its id in database
      * @returns {JSON[]} 200 - the perfume modified
      */
-    .patch(validateBody(perfumeSchema), perfumeController.updateOnePerfume);
+    .patch(validateBody(perfumeSchema), perfumeController.updateOnePerfume)
+    /**
+     * @route DELETE /perfumes/{id}
+     * @group Perfumes - perfume collection management
+     * @summary Deletes one perfume from the database
+     * @returns {JSON[]} 200 - success message
+     */
+    .delete(perfumeController.deleteOnePerfume);
 
 router.route('/perfumes/:id/scents')
     /**
@@ -54,6 +61,15 @@ router.route('/perfumes/:id/scents')
      */
     .post(validateBody(perfumeScentSchema), scentController.newAssociation);
 
+router.route('/perfumes/:perfumeId/scents/:scentId')
+    /**
+     * @route DELETE /perfumes/{id}/scents/{id}
+     * @group Perfumes - perfume collection management
+     * @summary Deletes one association between a perfume and a scent from database
+     * @returns {JSON[]} 200 - success message
+     */
+    .delete(scentController.removeAssociation);
+
 router.route('/perfumes/:id/tags')
     /**
      * @route POST /perfumes/{id}/tags
@@ -62,6 +78,15 @@ router.route('/perfumes/:id/tags')
      * @returns {JSON[]} 200 - the association created
      */
     .post(validateBody(perfumeTagSchema), tagController.newAssociation);
+
+router.route('/perfumes/:perfumeId/tags/:tagId')
+    /**
+     * @route DELETE /perfumes/{id}/tags/{id}
+     * @group Perfumes - perfume collection management
+     * @summary Deletes one association between a perfume and a tag from database
+     * @returns {JSON[]} 200 - success message
+     */
+    .delete(tagController.removeAssociation);
 
 
 router.route('/genders')
@@ -94,7 +119,14 @@ router.route('/genders/:id(\\d+)')
      * @summary Modifies a gender according to its id in database
      * @returns {JSON[]} 200 - the gender modified
      */
-    .patch(validateBody(genderSchema), genderController.updateOneGender);
+    .patch(validateBody(genderSchema), genderController.updateOneGender)
+    /**
+     * @route DELETE /genders/{id}
+     * @group Genders - gender collection management
+     * @summary Deletes one gender from the database
+     * @returns {JSON[]} 200 - success message
+     */
+    .delete(genderController.deleteOneGender);
 
 router.route('/intensities')
     /**
@@ -126,7 +158,15 @@ router.route('/intensities/:id(\\d+)')
      * @summary Modifies a intensity according to its id in database
      * @returns {JSON[]} 200 - the intensity modified
      */
-    .patch(validateBody(intensitySchema), intensityController.updateOneIntensity);
+    .patch(validateBody(intensitySchema), intensityController.updateOneIntensity)
+    /**
+     * @route DELETE /intensities/{id}
+     * @group Intensities - intensity collection management
+     * @summary Deletes one intensity from the database
+     * @returns {JSON[]} 200 - success message
+     */
+    .delete(intensityController.deleteOneIntensity);
+
 
 router.route('/scents')
     /**
@@ -158,7 +198,14 @@ router.route('/scents/:id(\\d+)')
      * @summary Modifies a scent according to its id in database
      * @returns {JSON[]} 200 - the scent modified
      */
-    .patch(validateBody(scentSchema), scentController.updateOneScent);
+    .patch(validateBody(scentSchema), scentController.updateOneScent)
+    /**
+     * @route DELETE /scents/{id}
+     * @group Scents - scent collection management
+     * @summary Deletes one scent from the database
+     * @returns {JSON[]} 200 - success message
+     */
+    .delete(scentController.deleteOneScent);
 
 
 router.route('/tags')
@@ -191,6 +238,13 @@ router.route('/tags/:id(\\d+)')
      * @summary Modifies a tag according to its id in database
      * @returns {JSON[]} 200 - the tag modified
      */
-    .patch(validateBody(tagSchema), tagController.updateOneTag);
+    .patch(validateBody(tagSchema), tagController.updateOneTag)
+    /**
+     * @route DELETE /tags/{id}
+     * @group Tags - tag collection management
+     * @summary Deletes one tag from the database
+     * @returns {JSON[]} 200 - success message
+     */
+    .delete(tagController.deleteOneTag);
 
 module.exports = router;

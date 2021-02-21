@@ -64,8 +64,14 @@ class Gender {
         if (!rows[0]) {
             throw new Error(`Oups la modification du genre ${id} n'a pas pu être effectuée`);
         }
-
         return rows[0];
+    }
+
+    /**
+     * delete : An async method which allows to delete a gender instance
+     */
+    async delete() {
+        return await db.query('DELETE FROM gender WHERE gender.id = $1', [this.id]);
     }
 
 };
