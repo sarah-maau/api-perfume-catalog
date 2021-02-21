@@ -6,3 +6,4 @@
 03_views 2021-02-20T18:30:58Z Sarah <maurysarah@hotmail.fr> # création de vues pour les routes GET
 04_slc_functions 2021-02-21T05:35:01Z Sarah <maurysarah@hotmail.fr> # création de fonctions SELECT selon le l'id donné en paramètre
 05_insert_functions 2021-02-21T07:15:00Z Sarah <maurysarah@hotmail.fr> # création de fonctions INSERT pour les models de +2 paramètres
+06_upd_functions 2021-02-21T12:27:29Z Sarah <maurysarah@hotmail.fr> # création de fonctions UPDATE pour modifier les instances de classe

@@ -61,7 +61,30 @@ const genderController = {
         catch (error) {
             res.status(403).json(error.message);
         }
+    },
 
+    /**
+     * Middleware function modifies one gender (according to the informations given in body and params request)
+     * @module updateOneGender
+     * @function async
+     * @param {Express.Request} [request] - the object representing the request
+     * @param {Express.Response} response - the object representing the response
+     * @returns {JSON[]} - the gender modified
+     */
+    updateOneGender: async (req, res) => {
+        const data = {
+            id: req.params.id, // le gender à modifier
+            type: req.body.type // les infos données
+        };
+
+        try {
+            const updatedGender = new Gender(data)
+            await updatedGender.update();
+            res.json(updatedGender); 
+        }
+        catch (error) {
+            res.status(403).json(error.message);
+        }
     },
 
 

@@ -62,6 +62,34 @@ const perfumeController = {
         }
     },
 
+    /**
+     * Middleware function modifies one perfume (according to the informations given in body and params request)
+     * @module updateOnePerfume
+     * @function async
+     * @param {Express.Request} [request] - the object representing the request
+     * @param {Express.Response} response - the object representing the response
+     * @returns {JSON[]} - the perfume modified
+     */
+    updateOnePerfume: async (req, res) => {
+        const { id } = req.params; // le perfume à modifier
+        const data = req.body; // les infos données
+
+        try {      
+            const perfumeToUpdate = await Perfume.findOne(id);
+
+            for (const field in data) {
+                perfumeToUpdate[field] = data[field];
+            }
+
+            const updatedPerfume = new Perfume(perfumeToUpdate);
+            await updatedPerfume.update();
+            res.json(updatedPerfume); 
+        }
+        catch (error) {
+            res.status(400).json(error.message);
+        }
+    },
+
 };
 
 module.exports = perfumeController;

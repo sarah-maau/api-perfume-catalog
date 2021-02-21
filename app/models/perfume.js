@@ -89,6 +89,18 @@ class Perfume {
         await db.query(`INSERT INTO perfume_has_tag(perfume_id, tag_id) VALUES($1, $2)`, [this.id, 1]);
     }
 
+    /**
+     * update : An async method which allows to modify an existing perfume instance
+     */
+    async update() {
+        const { rows } = await db.query(`SELECT * FROM update_perfume ($1, $2, $3, $4, $5, $6, $7, $8)`, [this.id, this.name, this.creator, this.yearOfCreation, this.score, this.brandId, this.intensityId, this.genderId]);
+        
+        if(!rows[0]) {
+            throw new Error(`Oups la modification du parfum ${id} n'a pas pu être effectuée`);
+        }
+        return rows[0];
+    }
+
 };
 
 module.exports = Perfume;

@@ -4,41 +4,13 @@
 @path=api
 @baseUrl = {{protocol}}://{{domainname}}:{{port}}/{{path}}
 
-# GET /all
+# PERFUMES
 
 ### GET/perfumes
 GET {{baseUrl}}/perfumes
 
-### GET/genders
-GET {{baseUrl}}/genders
-
-### GET/intensities
-GET {{baseUrl}}/intensities
-
-### GET/scents
-GET {{baseUrl}}/scents
-
-### GET/tags
-GET {{baseUrl}}/tags
-
-# GET /:id
-
 ### GET/perfumes/:id
-GET {{baseUrl}}/perfumes/1
-
-### GET/genders/:id
-GET {{baseUrl}}/genders/4
-
-### GET/intensities/:id
-GET {{baseUrl}}/intensities/2
-
-### GET/scents/:id
-GET {{baseUrl}}/scents/3
-
-### GET/tag/:id
-GET {{baseUrl}}/tags/11
-
-# POST
+GET {{baseUrl}}/perfumes/2
 
 ### POST/perfumes
 POST  {{baseUrl}}/perfumes
@@ -49,17 +21,121 @@ Content-Type: application/json
     "creator": "Ernest Beaux",
     "yearOfCreation": "1921-05-05",
     "score": 3,
-    "brandId": 1,
+    "brandId": 4,
     "intensityId": 2,
     "genderId": 1
 }
 
-### POST/perfumes/:id/scents
-POST  {{baseUrl}}/perfumes/1/scents
+### PATCH /perfumes/:id
+PATCH  {{baseUrl}}/perfumes/2
 Content-Type: application/json
 
 {
-    "scentId": 18
+    "name": "J'adore",
+    "creator": "Monique",
+    "yearOfCreation": "2019-05-03",
+    "score": 3,
+    "brandId": 4,
+    "intensityId": 2,
+    "genderId": 1
+}
+
+
+# GENDERS
+
+### GET/genders
+GET {{baseUrl}}/genders
+
+### GET/genders/:id
+GET {{baseUrl}}/genders/1
+
+### POST/genders
+POST  {{baseUrl}}/genders
+Content-Type: application/json
+
+{
+    "type": "Unisexe"
+}
+
+### PATCH /genders/:id
+PATCH  {{baseUrl}}/genders/1
+Content-Type: application/json
+
+{
+    "type": "Hérosss"
+}
+
+# INTENSITIES
+
+### GET/intensities
+GET {{baseUrl}}/intensities
+
+### GET/intensities/:id
+GET {{baseUrl}}/intensities/2
+
+### POST/intensities
+POST  {{baseUrl}}/intensities
+Content-Type: application/json
+
+{
+    "type": "Parfum d'ambiance"
+}
+
+### PATCH /intensities/:id
+PATCH  {{baseUrl}}/intensities/2
+Content-Type: application/json
+
+{
+    "type": "Extrait"
+}
+
+# SCENTS 
+
+### GET/scents
+GET {{baseUrl}}/scents
+
+### GET/scents/:id
+GET {{baseUrl}}/scents/18
+
+### POST/scents
+POST  {{baseUrl}}/scents
+Content-Type: application/json
+
+{
+    "note": "Noisette"
+}
+
+### POST/perfumes/:id/scents
+POST  {{baseUrl}}/perfumes/2/scents
+Content-Type: application/json
+
+{
+    "scentId": 15
+}
+
+### PATCH /scents/:id
+PATCH  {{baseUrl}}/scents/18
+Content-Type: application/json
+
+{
+    "note": "Orange sanguine"
+}
+
+# TAGS
+
+### GET/tags
+GET {{baseUrl}}/tags
+
+### GET/tag/:id
+GET {{baseUrl}}/tags/1
+
+### POST/tags
+POST  {{baseUrl}}/tags
+Content-Type: application/json
+
+{
+    "label": "Subtil",
+    "color": "#F0F0F0"
 }
 
 ### POST/perfumes/:id/tags
@@ -70,37 +146,18 @@ Content-Type: application/json
     "tagId": 11
 }
 
-
-### POST/genders
-POST  {{baseUrl}}/genders
+### PATCH /tags/:id
+PATCH  {{baseUrl}}/tags/1
 Content-Type: application/json
 
 {
-    "type": "Unisexe"
+    "label" :"Senteurs d'hiver",
+    "color": "#fff0ff"
 }
 
-### POST/intensities
-POST  {{baseUrl}}/intensities
-Content-Type: application/json
 
-{
-    "type": "Parfum d'ambiance"
-}
 
-### POST/scents
-POST  {{baseUrl}}/scents
-Content-Type: application/json
 
-{
-    "note": "Noisette"
-}
 
-### POST/tags
-POST  {{baseUrl}}/tags
-Content-Type: application/json
 
-{
-    "label": "Subtil",
-    "color": "#F0F0F0"
-}
 

@@ -36,7 +36,14 @@ router.route('/perfumes/:id(\\d+)')
      * @summary Returns one perfume its associated tags and scents from database
      * @returns {JSON[]} 200 - one perfume from database
      */
-    .get(perfumeController.onePerfume);
+    .get(perfumeController.onePerfume)
+    /**
+     * @route PATCH /perfumes/{id}
+     * @group Perfumes - perfume collection management
+     * @summary Modifies a perfume according to its id in database
+     * @returns {JSON[]} 200 - the perfume modified
+     */
+    .patch(validateBody(perfumeSchema), perfumeController.updateOnePerfume);
 
 router.route('/perfumes/:id/scents')
     /**
@@ -80,7 +87,14 @@ router.route('/genders/:id(\\d+)')
      * @summary Returns one gender and its associated perfume names from database
      * @returns {JSON[]} 200 - one gender from database
      */
-    .get(genderController.oneGender);
+    .get(genderController.oneGender)
+    /**
+     * @route PATCH /genders/{id}
+     * @group Genders - gender collection management
+     * @summary Modifies a gender according to its id in database
+     * @returns {JSON[]} 200 - the gender modified
+     */
+    .patch(validateBody(genderSchema), genderController.updateOneGender);
 
 router.route('/intensities')
     /**
@@ -105,7 +119,14 @@ router.route('/intensities/:id(\\d+)')
      * @summary Returns one intensity and its associated perfume names from database
      * @returns {JSON[]} 200 - one intensity from database
      */
-    .get(intensityController.oneIntensity);
+    .get(intensityController.oneIntensity)
+    /**
+     * @route PATCH /intensities/{id}
+     * @group Intensities - intensity collection management
+     * @summary Modifies a intensity according to its id in database
+     * @returns {JSON[]} 200 - the intensity modified
+     */
+    .patch(validateBody(intensitySchema), intensityController.updateOneIntensity);
 
 router.route('/scents')
     /**
@@ -130,7 +151,14 @@ router.route('/scents/:id(\\d+)')
      * @summary Returns one scent and its associated perfume names from database
      * @returns {JSON[]} 200 - one scent from database
      */
-    .get(scentController.oneScent);
+    .get(scentController.oneScent)
+    /**
+     * @route PATCH /scents/{id}
+     * @group Scents - scent collection management
+     * @summary Modifies a scent according to its id in database
+     * @returns {JSON[]} 200 - the scent modified
+     */
+    .patch(validateBody(scentSchema), scentController.updateOneScent);
 
 
 router.route('/tags')
@@ -156,6 +184,13 @@ router.route('/tags/:id(\\d+)')
      * @summary Returns one tag and its associated perfume names from database
      * @returns {JSON[]} 200 - one tag from database
      */
-    .get(tagController.oneTag);
+    .get(tagController.oneTag)
+    /**
+     * @route PATCH /tags/{id}
+     * @group Tags - tag collection management
+     * @summary Modifies a tag according to its id in database
+     * @returns {JSON[]} 200 - the tag modified
+     */
+    .patch(validateBody(tagSchema), tagController.updateOneTag);
 
 module.exports = router;

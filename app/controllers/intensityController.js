@@ -63,6 +63,30 @@ const intensityController = {
         }
     },
 
+    /**
+     * Middleware function modifies one intensity (according to the informations given in body and params request)
+     * @module updateOneIntensity
+     * @function async
+     * @param {Express.Request} [request] - the object representing the request
+     * @param {Express.Response} response - the object representing the response
+     * @returns {JSON[]} - the intensity modified
+     */
+    updateOneIntensity: async (req, res) => {
+        const data = {
+            id: req.params.id, // l'intensité à modifier 
+            type: req.body.type // l'info donnée (seulement le type)
+        };
+
+        try { 
+            const updatedIntensity = new Intensity(data);
+            await updatedIntensity.update();
+            res.json(updatedIntensity); 
+        }
+        catch (error) {
+            res.status(403).json(error.message);
+        }
+    },
+
 
 };
 

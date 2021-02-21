@@ -55,6 +55,18 @@ class Intensity {
         this.id = rows[0].id;
     }
 
+    /**
+     * update : An async method which allows to modify an existing intensity instance
+     */
+    async update() {
+        const { rows } = await db.query(`SELECT * FROM update_intensity($1, $2)`, [this.id, this.type]);
+
+        if (!rows[0]) {
+            throw new Error(`Oups la modification de la concentration ${id} n'a pas pu être effectuée`);
+        }
+        return rows[0];
+    }
+
 };
 
 module.exports = Intensity;

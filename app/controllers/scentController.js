@@ -89,6 +89,30 @@ const scentController = {
         }
     },
 
+    /**
+     * Middleware function modifies one scent (according to the informations given in body and params request)
+     * @module updateOneScent
+     * @function async
+     * @param {Express.Request} [request] - the object representing the request
+     * @param {Express.Response} response - the object representing the response
+     * @returns {JSON[]} - the scent modified
+     */
+    updateOneScent: async (req, res) => {
+        const data = {
+            id: req.params.id, // la scent à modifier
+            note: req.body.note // l'info donnée (seulement la note)
+        };
+
+        try { 
+            const updatedScent = new Scent(data);
+            await updatedScent.update();
+            res.json(updatedScent); 
+        }
+        catch (error) {
+            res.status(403).json(error.message);
+        }
+    },
+
 };
 
 module.exports = scentController;

@@ -90,6 +90,37 @@ const tagController = {
         }
     },
 
+    /**
+     * Middleware function modifies one tag (according to the informations given in body and params request)
+     * @module updateOneTag
+     * @function async
+     * @param {Express.Request} [request] - the object representing the request
+     * @param {Express.Response} response - the object representing the response
+     * @returns {JSON[]} - the tag modified
+     */
+    updateOneTag: async (req, res) => {
+        const { id } = req.params; // le tag à modifier
+        const data = req.body; // les infos données
+
+        try {
+            const tagToUpdate = await Tag.findOne(id);
+
+            for (const field in data) {
+                if(typeof tagToUpdate[field] !== "undefined"){
+                    tagToUpdate[field] = data[field];
+                }
+            };
+
+            const updatedTag = new Tag(tagToUpdate);
+            await updatedTag.update();
+            res.json(updatedTag); 
+        }
+        catch (error) {
+            res.status(400).json(error.message);
+        }
+    },
+
+
 };
 
 module.exports = tagController;

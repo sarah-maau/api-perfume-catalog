@@ -57,6 +57,18 @@ class Tag {
         this.id = rows[0].id;
     }
 
+    /**
+     * update : An async method which allows to modify an existing tag instance
+     */
+    async update() {
+        const { rows } = await db.query(`SELECT * FROM update_tag($1, $2, $3)`, [this.id, this.label, this.color]);
+
+        if (!rows[0]) {
+            throw new Error(`Oups la modification du tag ${id} n'a pas pu être effectuée`);
+        }
+        return rows[0];
+    }
+
 };
 
 module.exports = Tag;
