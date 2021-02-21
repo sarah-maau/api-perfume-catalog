@@ -1,4 +1,5 @@
 const Scent = require('../models/scent');
+const PerfumeHasScent = require('../models/perfumeHasScent');
 
 /**
  * A controller in charge of all scent middleware functions
@@ -19,7 +20,7 @@ const scentController = {
             res.json(scents)
         }
         catch (error) {
-            res.status(400).json(error.message);
+            res.status(404).json(error.message);
         }
     },
 
@@ -39,7 +40,52 @@ const scentController = {
             res.json(scent);
         }
         catch (error) {
-            res.status(400).json(error.message);
+            res.status(404).json(error.message);
+        }
+    },
+
+    /**
+     * Middleware function adds one scent (according to the informations given in body request)
+     * @module newScent
+     * @function async
+     * @param {Express.Request} [request] - the object representing the request
+     * @param {Express.Response} response - the object representing the response
+     * @returns {JSON[]} - the scent saved
+     */
+    newScent: async (req, res) => {
+        const newScent = new Scent(req.body);
+        
+        try {
+            await newScent.save();
+            res.json(newScent);
+        }
+        catch (error) {
+            res.status(403).json(error.message);
+        }
+    },
+
+    /**
+     * Middleware function adds one association between a perfume (according to id in request param) and a scent (according to the informations given in body request)
+     * @module newAssociation
+     * @function async
+     * @param {Express.Request} [request] - the object representing the request
+     * @param {Express.Response} response - the object representing the response
+     * @returns {JSON[]} - the new association perfume <-> scent created
+     */
+    newAssociation: async (req, res) => {  
+        const data = {
+            perfumeId: Number(req.params.id),
+            scentId: req.body.scentId
+        }
+            
+        const newAssociation = new PerfumeHasScent(data);
+
+        try {
+            await newAssociation.save();
+            res.json(newAssociation);
+        }
+        catch (error) {
+            res.status(403).json(error.message);
         }
     },
 

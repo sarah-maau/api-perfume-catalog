@@ -49,6 +49,14 @@ class Tag {
         return new Tag(rows[0]);
     }
 
+    /**
+     * save : An async method which allows to save the new tag instance created
+     */
+    async save() {
+        const { rows } = await db.query(`SELECT * FROM new_tag($1)`, [this]);
+        this.id = rows[0].id;
+    }
+
 };
 
 module.exports = Tag;

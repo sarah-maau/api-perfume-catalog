@@ -47,6 +47,14 @@ class Intensity {
         return new Intensity(rows[0]);
     }
 
+    /**
+     * save : An async method which allows to save the new intensity instance created
+     */
+    async save() {
+        const { rows } = await db.query('INSERT INTO intensity(type) VALUES ($1) RETURNING *;', [this.type]);
+        this.id = rows[0].id;
+    }
+
 };
 
 module.exports = Intensity;

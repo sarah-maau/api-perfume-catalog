@@ -19,7 +19,7 @@ const intensityController = {
             res.json(intensities);
         }
         catch (error) {
-            res.status(400).json(error.message);
+            res.status(404).json(error.message);
         }
     },
 
@@ -39,7 +39,27 @@ const intensityController = {
             res.json(intensity);
         }
         catch (error) {
-            res.status(400).json(error.message);
+            res.status(404).json(error.message);
+        }
+    },
+
+    /**
+     * Middleware function adds one intensity (according to the informations given in body request)
+     * @module newIntensity
+     * @function async
+     * @param {Express.Request} [request] - the object representing the request
+     * @param {Express.Response} response - the object representing the response
+     * @returns {JSON[]} - the intensity saved
+     */
+    newIntensity: async (req, res) => {
+        const newIntensity = new Intensity(req.body);
+
+        try {
+            await newIntensity.save();
+            res.json(newIntensity);
+        }
+        catch (error) {
+            res.status(403).json(error.message);
         }
     },
 

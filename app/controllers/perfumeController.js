@@ -42,6 +42,26 @@ const perfumeController = {
         }
     },
 
+    /**
+     * Middleware function adds one perfume (according to the informations given in body request)
+     * @module newPerfume
+     * @function async
+     * @param {Express.Request} [request] - the object representing the request
+     * @param {Express.Response} response - the object representing the response
+     * @returns {JSON[]} - the perfume saved
+     */
+    newPerfume: async (req, res) => {
+        const newPerfume = new Perfume(req.body);
+
+        try {
+            await newPerfume.save();
+            res.json(newPerfume);
+        }
+        catch (error) {
+            res.status(403).json(error.message);
+        }
+    },
+
 };
 
 module.exports = perfumeController;

@@ -24,7 +24,7 @@ GET {{baseUrl}}/tags
 # GET /:id
 
 ### GET/perfumes/:id
-GET {{baseUrl}}/perfumes/2
+GET {{baseUrl}}/perfumes/1
 
 ### GET/genders/:id
 GET {{baseUrl}}/genders/4
@@ -36,4 +36,71 @@ GET {{baseUrl}}/intensities/2
 GET {{baseUrl}}/scents/3
 
 ### GET/tag/:id
-GET {{baseUrl}}/tags/3
+GET {{baseUrl}}/tags/11
+
+# POST
+
+### POST/perfumes
+POST  {{baseUrl}}/perfumes
+Content-Type: application/json
+
+{
+    "name": "Chanel N°5",
+    "creator": "Ernest Beaux",
+    "yearOfCreation": "1921-05-05",
+    "score": 3,
+    "brandId": 1,
+    "intensityId": 2,
+    "genderId": 1
+}
+
+### POST/perfumes/:id/scents
+POST  {{baseUrl}}/perfumes/1/scents
+Content-Type: application/json
+
+{
+    "scentId": 18
+}
+
+### POST/perfumes/:id/tags
+POST  {{baseUrl}}/perfumes/1/tags
+Content-Type: application/json
+
+{
+    "tagId": 11
+}
+
+
+### POST/genders
+POST  {{baseUrl}}/genders
+Content-Type: application/json
+
+{
+    "type": "Unisexe"
+}
+
+### POST/intensities
+POST  {{baseUrl}}/intensities
+Content-Type: application/json
+
+{
+    "type": "Parfum d'ambiance"
+}
+
+### POST/scents
+POST  {{baseUrl}}/scents
+Content-Type: application/json
+
+{
+    "note": "Noisette"
+}
+
+### POST/tags
+POST  {{baseUrl}}/tags
+Content-Type: application/json
+
+{
+    "label": "Subtil",
+    "color": "#F0F0F0"
+}
+

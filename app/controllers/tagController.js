@@ -1,4 +1,5 @@
 const Tag = require('../models/tag');
+const PerfumeHasTag = require('../models/perfumeHasTag');
 
 /**
  * A controller in charge of all tag middleware functions
@@ -39,7 +40,53 @@ const tagController = {
             res.json(tag);
         } 
         catch(error) {
-            res.status(400).json(error.message);
+            res.status(404).json(error.message);
+        }
+    },
+
+    /**
+     * Middleware function adds one tag (according to the informations given in body request)
+     * @module newTag
+     * @function async
+     * @param {Express.Request} [request] - the object representing the request
+     * @param {Express.Response} response - the object representing the response
+     * @returns {JSON[]} - the tag saved
+     */
+    newTag: async (req, res) => {
+        const newTag = new Tag(req.body);
+
+        try {
+            await newTag.save();
+            res.json(newTag);
+        }
+        catch (error) {
+            res.status(403).json(error.message);
+        }
+    },
+
+    /**
+     * Middleware function adds one association between a perfume (according to id in request param) and a tag (according to the informations given in body request)
+     * @module newAssociation
+     * @function async
+     * @param {Express.Request} [request] - the object representing the request
+     * @param {Express.Response} response - the object representing the response
+     * @returns {JSON[]} - the new association perfume <-> tag created
+     */
+    newAssociation: async (req, res) => {  
+        const data = {
+            perfumeId: Number(req.params.id),
+            tagId: req.body.tagId
+        };
+            
+        const newAssociation = new PerfumeHasTag(data);
+
+        try {
+
+            await newAssociation.save();
+            res.json(newAssociation);
+        }
+        catch (error) {
+            res.status(403).json(error.message);
         }
     },
 

@@ -47,6 +47,14 @@ class Scent {
         return new Scent(rows[0]);
     }
 
+    /**
+     * save : An async method which allows to save the new scent instance created
+     */
+    async save() {
+        const { rows } = await db.query(`INSERT INTO scent(note) VALUES ($1) RETURNING *;`, [this.note]);
+        this.id = rows[0].id;
+    }
+
 };
 
 module.exports = Scent;

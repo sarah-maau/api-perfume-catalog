@@ -76,6 +76,19 @@ class Perfume {
         return new Perfume(rows[0]);
     }
 
+    /**
+     * save : An async method which allows to save the new perfume instance created
+     */
+    // pour qu'un parfum fraichement créé soit visible, il faut qu'il ait au minimum une senteur et un tag
+    // pour pallier ce problème, on ajoute par défaut un tag et une senteur dès la création
+    // l'utilisateur pourra toujours modifier ces associations dans un second temps
+    async save() {
+        const { rows } = await db.query(`SELECT * FROM new_perfume($1);`, [this]); 
+        this.id = rows[0].id;
+        await db.query(`INSERT INTO perfume_has_scent(perfume_id, scent_id) VALUES($1, $2)`, [this.id, 1]);
+        await db.query(`INSERT INTO perfume_has_tag(perfume_id, tag_id) VALUES($1, $2)`, [this.id, 1]);
+    }
+
 };
 
 module.exports = Perfume;
