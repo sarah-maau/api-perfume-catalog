@@ -1,0 +1,22 @@
+{
+    "swaggerDefinition": {
+        "info": {
+            "description": "A REST API to manage a perfume catalog",
+            "title": "Perfume catalog",
+            "version": "1.0.0"
+        },
+        "basePath": "/api",
+        "produces": ["application/json"],
+        "schemes": ["http"]
+    },
+        "files": [
+            "./app/router.js",
+            "./app/models/perfume.js",
+            "./app/models/gender.js",
+            "./app/models/intensity.js",
+            "./app/models/scent.js",
+            "./app/models/tag.js",
+            "./app/models/perfumeHasScent.js",
+            "./app/models/perfumeHasTag.js"
+        ] 
+}
