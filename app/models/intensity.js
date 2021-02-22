@@ -1,10 +1,11 @@
 const db = require('../database');
 
+// Class representing an intensity
+
 /**
-  * Class representing an intensity
-  * @name Intensity
+  * An intensity
   * @typedef {Intensity} Intensity
-  * @property {string} type - the type of intensity
+  * @property {string} type - the type of intensity - ex: "Extrait"
 */
 class Intensity {
     id;
@@ -12,7 +13,7 @@ class Intensity {
 
     /**
      * Creates an intensity
-     * @param {Intensity} Intensity
+     * @param {Object} data
     */
     constructor(data = {}) {
         for (const prop in data) {

@@ -1,11 +1,12 @@
 const db = require('../database');
 
+// Class representing a tag
+
 /**
-  * Class representing a tag
-  * @name Tag
+  * A tag
   * @typedef {Tag} Tag
-  * @property {string} label - the tag's label (name)
-  * @property {string} color - the color of the label
+  * @property {string} label - the tag's label (name) - ex: "Cuirs"
+  * @property {string} color - the color of the label - ex: "#ff00ff"
 */
 class Tag {
     id;

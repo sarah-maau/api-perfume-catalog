@@ -1,18 +1,20 @@
 const db = require('../database');
 
+// Class representing a scent
+
 /**
-  * Class representing a scent
-  * @name Scent
-  * @typedef {Scent} Scent
-  * @property {string} note - the scent's note 
-*/
+ * A scent
+ * @typedef {Scent} Scent
+ * @property {string} note - the scent's note 
+ */
+
 class Scent {
     id;
     note;
 
     /**
      * Creates a scent
-     * @param {Scent} Scent
+     * @param {Object} data
     */
     constructor (data = {}) {
         for (const prop in data) {

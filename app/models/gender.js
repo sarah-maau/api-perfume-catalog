@@ -1,10 +1,11 @@
 const db = require('../database');
 
+// Class representing a gender
+
 /**
-  * Class representing a gender
-  * @name Gender
-  * @typedef {Gender} Gender
-  * @property {string} type - the gender's type
+ *  A gender
+ *  @typedef {Gender} Gender
+ *  @property {string} type - the gender's type - ex: "Unisexe" 
 */
 class Gender {
     id;
@@ -12,7 +13,7 @@ class Gender {
 
     /**
      * Creates a gender
-     * @param {Gender} Gender
+     * @param {Object} data
     */
     constructor(data = {}) {
         for (const prop in data) {

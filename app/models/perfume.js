@@ -1,16 +1,17 @@
 const db = require('../database');
 
+// Class representing a perfume
+
 /**
-  * Class representing a perfume
-  * @name Perfume
-  * @typedef {Perfume} Perfume
-  * @property {string} name - the perfume's name
-  * @property {string} creator - the creator's fullname
-  * @property {date} yearOfCreation - the date of creation 
-  * @property {number} score - the average score 
-  * @property {number} brandId - the id refers to the brand
-  * @property {number} intensityId - the id refers to the intensity (concentration)
-  * @property {number} genderId - the id refers to the gender
+ * A perfume
+ * @typedef {Perfume} Perfume
+ * @property {string} name - the perfume's name - ex: "Bleu" 
+ * @property {string} creator - the creator's fullname - ex: "Jacques Polge"
+ * @property {string} yearOfCreation - the date of creation - ex: "2010-01-01"
+ * @property {number} score - the average score - ex: 5
+ * @property {number} brandId - the id refers to the brand - ex: 1 (for Chanel)
+ * @property {number} intensityId - the id refers to the intensity (concentration) - ex: 3 (for Eau de toilette)
+ * @property {number} genderId - the id refers to the gender - ex: 2 (for Femme)
 */
 class Perfume {
 
@@ -41,7 +42,7 @@ class Perfume {
 
     /**
      * Creates a perfume
-     * @param {Perfume} Perfume
+     * @param {Object} data
     */
     constructor (data = {}) {
         for (const prop in data) {
@@ -51,7 +52,7 @@ class Perfume {
 
     /**
      * findAll : A static and async method which returns all the perfumes from database
-     * @returns {Perfume[]} returns an array of perfume instances (instead of gender / brand / intensity id, it returns the name of them + array of tags and scents) 
+     * @returns {Perfume[]} returns an array of perfume instances (instead of gender / brand / intensity id, it returns the name of them + array of tags and scents)
      */
     static async findAll() {
         const { rows } = await db.query('SELECT * FROM all_from_perfumes');
@@ -87,6 +88,7 @@ class Perfume {
         this.id = rows[0].id;
         await db.query(`INSERT INTO perfume_has_scent(perfume_id, scent_id) VALUES($1, $2)`, [this.id, 1]);
         await db.query(`INSERT INTO perfume_has_tag(perfume_id, tag_id) VALUES($1, $2)`, [this.id, 1]);
+        console.log(rows[0])
     }
 
     /**
