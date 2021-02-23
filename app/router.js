@@ -13,6 +13,13 @@ const { perfumeSchema, genderSchema, scentSchema, tagSchema, intensitySchema, pe
 // validateur des données (joi)
 const { validateBody } = require('./services/validator');
 
+// service de mise en cache
+const cacheGenerator = require('./services/cache');
+const { cache, flush } = cacheGenerator({
+    ttl:10000,
+    prefix: "perf"
+});
+
 /********* PERFUMES *********/
 router.route('/perfumes')
     /**
@@ -21,7 +28,7 @@ router.route('/perfumes')
      * @summary Returns all the perfumes and their associated tags and scents from database
      * @returns {JSON} 200 - all the perfumes from database
      */
-    .get(perfumeController.allPerfumes)
+    .get( perfumeController.allPerfumes)
     /**
      * @route POST /perfumes
      * @group Perfumes - perfume collection management
@@ -29,7 +36,7 @@ router.route('/perfumes')
      * @param {Perfume.model} Perfume.body.required
      * @returns {JSON} 200 - the perfume created
      */
-    .post(validateBody(perfumeSchema), perfumeController.newPerfume);
+    .post(flush, validateBody(perfumeSchema), perfumeController.newPerfume);
 
 router.route('/perfumes/:id(\\d+)')
     /**
@@ -39,7 +46,7 @@ router.route('/perfumes/:id(\\d+)')
      * @param {number} id.path.required - the perfume's id to look for 
      * @returns {JSON} 200 - one perfume from database
      */
-    .get(perfumeController.onePerfume)
+    .get(cache, perfumeController.onePerfume)
     /**
      * @route PATCH /perfumes/{id}
      * @group Perfumes - perfume collection management
@@ -48,7 +55,7 @@ router.route('/perfumes/:id(\\d+)')
      * @param {Perfume.model} Perfume.body.required
      * @returns {JSON} 200 - the perfume modified
      */
-    .patch(validateBody(perfumeSchema), perfumeController.updateOnePerfume)
+    .patch(flush, validateBody(perfumeSchema), perfumeController.updateOnePerfume)
     /**
      * @route DELETE /perfumes/{id}
      * @group Perfumes - perfume collection management
@@ -56,7 +63,7 @@ router.route('/perfumes/:id(\\d+)')
      * @param {number} id.path.required - the perfume's id to delete
      * @returns {JSON} 200 - success message
      */
-    .delete(perfumeController.deleteOnePerfume);
+    .delete(flush, perfumeController.deleteOnePerfume);
 
 router.route('/perfumes/:id/scents')
     /**
@@ -67,7 +74,7 @@ router.route('/perfumes/:id/scents')
      * @param {PerfumeHasScent.model} PerfumeHasScent.body.required - perfumeId is the id requested in params
      * @returns {JSON} 200 - the association created
      */
-    .post(validateBody(perfumeScentSchema), scentController.newAssociation);
+    .post(flush, validateBody(perfumeScentSchema), scentController.newAssociation);
 
 router.route('/perfumes/:perfumeId/scents/:scentId')
     /**
@@ -78,7 +85,7 @@ router.route('/perfumes/:perfumeId/scents/:scentId')
      * @param {number} scentId.path.required - the scent's id
      * @returns {JSON} 200 - success message
      */
-    .delete(scentController.removeAssociation);
+    .delete(flush, scentController.removeAssociation);
 
 router.route('/perfumes/:id/tags')
     /**
@@ -89,7 +96,7 @@ router.route('/perfumes/:id/tags')
      * @param {PerfumeHasTag.model} PerfumeHasTag.body.required - perfumeId is the id requested in params
      * @returns {JSON} 200 - the association created
      */
-    .post(validateBody(perfumeTagSchema), tagController.newAssociation);
+    .post(flush, validateBody(perfumeTagSchema), tagController.newAssociation);
 
 router.route('/perfumes/:perfumeId/tags/:tagId')
     /**
@@ -100,7 +107,7 @@ router.route('/perfumes/:perfumeId/tags/:tagId')
      * @param {number} tagId.path.required - the tag's id
      * @returns {JSON} 200 - success message
      */
-    .delete(tagController.removeAssociation);
+    .delete(flush, tagController.removeAssociation);
 
 /********* GENDERS *********/
 router.route('/genders')
@@ -110,7 +117,7 @@ router.route('/genders')
      * @summary Returns all the genders from database
      * @returns {JSON} 200 - all the genders from database
      */
-    .get(genderController.allGenders)
+    .get(cache, genderController.allGenders)
     /**
      * @route POST /genders
      * @group Genders - gender collection management
@@ -118,7 +125,7 @@ router.route('/genders')
      * @param {Gender.model} Gender.body.required
      * @returns {JSON} 200 - the gender created
      */
-    .post(validateBody(genderSchema), genderController.newGender);
+    .post(flush, validateBody(genderSchema), genderController.newGender);
 
 router.route('/genders/:id(\\d+)')
     /**
@@ -128,7 +135,7 @@ router.route('/genders/:id(\\d+)')
      * @param {number} id.path.required - the gender's id to look for
      * @returns {JSON} 200 - one gender and its associated perfume names from database
      */
-    .get(genderController.oneGender)
+    .get(cache, genderController.oneGender)
     /**
      * @route PATCH /genders/{id}
      * @group Genders - gender collection management
@@ -137,7 +144,7 @@ router.route('/genders/:id(\\d+)')
      * @param {Gender.model} Gender.body.required
      * @returns {JSON} 200 - the gender modified
      */
-    .patch(validateBody(genderSchema), genderController.updateOneGender)
+    .patch(flush, validateBody(genderSchema), genderController.updateOneGender)
     /**
      * @route DELETE /genders/{id}
      * @group Genders - gender collection management
@@ -145,7 +152,7 @@ router.route('/genders/:id(\\d+)')
      * @param {number} id.path.required - the gender's id to delete
      * @returns {JSON} 200 - success message
      */
-    .delete(genderController.deleteOneGender);
+    .delete(flush, genderController.deleteOneGender);
 
 /********* INTENSITIES *********/
 router.route('/intensities')
@@ -155,7 +162,7 @@ router.route('/intensities')
      * @summary Returns all the intensities from database
      * @returns {JSON} 200 - all the intensities from database
      */
-    .get(intensityController.allIntensities)
+    .get(cache, intensityController.allIntensities)
     /**
      * @route POST /intensities
      * @group Intensities - intensity collection management
@@ -163,7 +170,7 @@ router.route('/intensities')
      * @param {Intensity.model} Intensity.body.required
      * @returns {JSON} 200 - the intensity created
      */
-    .post(validateBody(intensitySchema), intensityController.newIntensity);
+    .post(flush, validateBody(intensitySchema), intensityController.newIntensity);
 
 router.route('/intensities/:id(\\d+)')
     /**
@@ -173,7 +180,7 @@ router.route('/intensities/:id(\\d+)')
      * @param {number} id.path.required - the intensity's id to look for
      * @returns {JSON} 200 - one intensity and its associated perfume names from database
      */
-    .get(intensityController.oneIntensity)
+    .get(cache, intensityController.oneIntensity)
     /**
      * @route PATCH /intensities/{id}
      * @group Intensities - intensity collection management
@@ -182,7 +189,7 @@ router.route('/intensities/:id(\\d+)')
      * @param {Intensity.model} Intensity.body.required
      * @returns {JSON} 200 - the intensity modified
      */
-    .patch(validateBody(intensitySchema), intensityController.updateOneIntensity)
+    .patch(flush, validateBody(intensitySchema), intensityController.updateOneIntensity)
     /**
      * @route DELETE /intensities/{id}
      * @group Intensities - intensity collection management
@@ -190,7 +197,7 @@ router.route('/intensities/:id(\\d+)')
      * @param {number} id.path.required - the intensity's id to delete 
      * @returns {JSON} 200 - success message
      */
-    .delete(intensityController.deleteOneIntensity);
+    .delete(flush, intensityController.deleteOneIntensity);
 
 /********* SCENTS *********/
 router.route('/scents')
@@ -200,7 +207,7 @@ router.route('/scents')
      * @summary Returns all the scents from database
      * @returns {JSON} 200 - all the scents from database
      */
-    .get(scentController.allScents)
+    .get(cache, scentController.allScents)
     /**
      * @route POST /scents
      * @group Scents - scent collection management
@@ -208,7 +215,7 @@ router.route('/scents')
      * @param {Scent.model} Scent.body.required
      * @returns {JSON} 200 - the scent created
      */
-    .post(validateBody(scentSchema), scentController.newScent);
+    .post(flush, validateBody(scentSchema), scentController.newScent);
 
 router.route('/scents/:id(\\d+)')
     /**
@@ -218,7 +225,7 @@ router.route('/scents/:id(\\d+)')
      * @param {number} id.path.required - the scent's id to look for
      * @returns {JSON} 200 - one scent and the name of the associated perfumes from database
      */
-    .get(scentController.oneScent)
+    .get(cache, scentController.oneScent)
     /**
      * @route PATCH /scents/{id}
      * @group Scents - scent collection management
@@ -227,7 +234,7 @@ router.route('/scents/:id(\\d+)')
      * @param {Scent.model} Scent.body.required
      * @returns {JSON} 200 - the scent modified
      */
-    .patch(validateBody(scentSchema), scentController.updateOneScent)
+    .patch(flush, validateBody(scentSchema), scentController.updateOneScent)
     /**
      * @route DELETE /scents/{id}
      * @group Scents - scent collection management
@@ -235,7 +242,7 @@ router.route('/scents/:id(\\d+)')
      * @param {number} id.path.required - the scent's id to delete
      * @returns {JSON} 200 - success message
      */
-    .delete(scentController.deleteOneScent);
+    .delete(flush, scentController.deleteOneScent);
 
 /********* TAGS *********/
 router.route('/tags')
@@ -245,7 +252,7 @@ router.route('/tags')
      * @summary Returns all the tags from database
      * @returns {JSON} 200 - all the tags from database
      */
-    .get(tagController.allTags)
+    .get(cache, tagController.allTags)
     /**
      * @route POST /tags
      * @group Tags - tag collection management
@@ -253,7 +260,7 @@ router.route('/tags')
      * @param {Tag.model} Tag.body.required
      * @returns {JSON} 200 - the tag created
      */
-    .post(validateBody(tagSchema), tagController.newTag);
+    .post(flush, validateBody(tagSchema), tagController.newTag);
 
 router.route('/tags/:id(\\d+)')
     /**
@@ -263,7 +270,7 @@ router.route('/tags/:id(\\d+)')
      * @param {number} id.path.required - the tag's id to look for
      * @returns {JSON} 200 - one tag its associated perfume names from database
      */
-    .get(tagController.oneTag)
+    .get(cache, tagController.oneTag)
     /**
      * @route PATCH /tags/{id}
      * @group Tags - tag collection management
@@ -272,7 +279,7 @@ router.route('/tags/:id(\\d+)')
      * @param {Tag.model} Tag.body.required
      * @returns {JSON} 200 - the tag modified
      */
-    .patch(validateBody(tagSchema), tagController.updateOneTag)
+    .patch(flush, validateBody(tagSchema), tagController.updateOneTag)
     /**
      * @route DELETE /tags/{id}
      * @group Tags - tag collection management
@@ -280,6 +287,6 @@ router.route('/tags/:id(\\d+)')
      * @param {number} id.path.required - the tag's id to delete
      * @returns {JSON} 200 - success message
      */
-    .delete(tagController.deleteOneTag);
+    .delete(flush, tagController.deleteOneTag);
 
 module.exports = router;

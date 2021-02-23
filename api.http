@@ -10,7 +10,7 @@
 GET {{baseUrl}}/perfumes
 
 ### GET/perfumes/:id
-GET {{baseUrl}}/perfumes/2
+GET {{baseUrl}}/perfumes/10
 
 ### POST/perfumes
 POST  {{baseUrl}}/perfumes
