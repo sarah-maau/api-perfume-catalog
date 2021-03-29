@@ -68,7 +68,7 @@ class Tag {
      * @returns {Tag} returns an instance of tag (+ an array of associated perfumes' name)
      */
     static async findOne(id) {
-        const { rows } = await db.query('SELECT * FROM one_tag($1)', [id]);
+        const { rows } = await db.query('SELECT * FROM one_tag($1);', [id]);
         
         if(!rows[0]) {
             throw new Error(`Oups il n'y a pas de parfum correspondant au tag ${id}`);
@@ -77,10 +77,21 @@ class Tag {
     }
 
     /**
+     * findOneByLabelAndColor : A static and async method which returns the requested tag thanks to its label and color
+     * @param {Text} label - the tag label (from the request)
+     * @param {Text} color - the tag color (from the request)
+     * @returns {Intensity} returns an instance of tag
+     */
+    static async findOneByLabelAndColor(label, color) {
+        const { rows } = await db.query('SELECT * FROM tag WHERE label=$1 and color=$2;', [label, color]);
+        return new Tag(rows[0]);
+    }
+
+    /**
      * save : An async method which allows to save the new tag instance created
      */
     async insert() {
-        const { rows } = await db.query(`SELECT * FROM new_tag($1)`, [this]);
+        const { rows } = await db.query(`SELECT * FROM new_tag($1);`, [this]);
         this.id = rows[0].id;
     }
 
@@ -88,7 +99,7 @@ class Tag {
      * update : An async method which allows to modify an existing tag instance
      */
     async update() {
-        const { rows } = await db.query(`SELECT * FROM update_tag($1, $2, $3)`, [this.id, this.label, this.color]);
+        const { rows } = await db.query(`SELECT * FROM update_tag($1, $2, $3);`, [this.id, this.label, this.color]);
 
         if (!rows[0]) {
             throw new Error(`Oups la modification du tag ${id} n'a pas pu être effectuée`);
@@ -100,7 +111,7 @@ class Tag {
      * delete : An async method which allows to delete a tag instance
      */
     async delete () {
-        return await db.query('DELETE FROM tag WHERE tag.id = $1', [this.id]);
+        return await db.query('DELETE FROM tag WHERE tag.id=$1;', [this.id]);
     }
 
 };

@@ -58,11 +58,7 @@ class PerfumeHasScent {
      */
 
     static async findOne (perfumeId, scentId) {
-        const { rows } = await db.query('SELECT * FROM perfume_has_scent WHERE perfume_id = $1 AND scent_id = $2;', [perfumeId, scentId]);
-
-        if (!rows[0]) {
-            throw new Error (`Oups, il n'y a pas d'association entre le parfum ${perfumeId} et le tag ${scentId}`);
-        }
+        const { rows } = await db.query('SELECT * FROM perfume_has_scent WHERE perfume_id=$1 AND scent_id=$2;', [perfumeId, scentId]);
         return new PerfumeHasScent(rows[0]);
     }
 

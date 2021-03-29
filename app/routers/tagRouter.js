@@ -54,7 +54,9 @@ router.route('/tags/:id(\\d+)')
      * @param {Tag.model} Tag.body.required
      * @returns {JSON} 200 - the tag modified
      */
-    .patch(flush, validateBody(tagSchema), tagController.updateOneTag)
+    .patch(flush, 
+        //validateBody(tagSchema),
+        tagController.updateOneTag)
     /**
      * @route DELETE /tags/{id}
      * @group Tags - tag collection management

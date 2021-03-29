@@ -57,10 +57,7 @@ class PerfumeHasTag {
      * @returns {Gender} returns an instance of an association between the perfume and the tag
      */
     static async findOne(perfumeId, tagId) {
-        const { rows } = await db.query('SELECT * from perfume_has_tag WHERE perfume_id = $1 AND tag_id = $2;', [perfumeId, tagId]);
-        if (!rows[0]) {
-            throw new Error(`Oups, il n'y a pas d'association entre le parfum ${perfumeId} et le tag ${tagId}`);
-        }
+        const { rows } = await db.query('SELECT * from perfume_has_tag WHERE perfume_id=$1 AND tag_id=$2;', [perfumeId, tagId]);
         return new PerfumeHasTag(rows[0]);
     }
 
@@ -76,7 +73,7 @@ class PerfumeHasTag {
      * delete : An async method which allows to delete an association between a perfume and a tag 
      */
     async delete () {
-        return await db.query('DELETE FROM perfume_has_tag WHERE perfume_id = $1 AND tag_id = $2;', [this.perfumeId, this.tagId]);
+        return await db.query('DELETE FROM perfume_has_tag WHERE perfume_id=$1 AND tag_id=$2;', [this.perfumeId, this.tagId]);
     }
 
 };

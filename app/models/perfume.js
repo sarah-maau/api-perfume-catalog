@@ -127,17 +127,13 @@ class Perfume {
         return new Perfume(rows[0]);
     }
 
-        /**
-     * findOne : A static and async method which returns the requested perfume and an array of the associated tags and scents
+    /**
+     * findOneByName : A static and async method which returns the requested perfume thanks to its name
      * @param {Text} name - the perfume name (from the request)
      * @returns {Perfume} returns an instance of perfume 
      */
     static async findOneByName(name) {
         const { rows } = await db.query('SELECT * FROM perfume WHERE name =$1;', [name]);
-        
-        if (!rows[0]) {
-            throw new Error(`Oups, il n'y a pas de parfum nommé ${name}`)
-        }
         return new Perfume(rows[0]);
     }
 

@@ -10,14 +10,14 @@
 GET {{baseUrl}}/perfumes
 
 ### GET/perfumes/:id
-GET {{baseUrl}}/perfumes/4
+GET {{baseUrl}}/tags
 
 ### POST/perfumes
 POST  {{baseUrl}}/perfumes
 Content-Type: application/json
 
 {
-    "name": "CK One",
+    "name": "CK Three",
     "creator": "Ernest Beaux",
     "yearOfCreation": "1921-05-05",
     "score": 3,
@@ -35,11 +35,11 @@ Content-Type: application/json
 }
 
 ### POST/perfumes/:id/scents
-POST  {{baseUrl}}/perfumes/2/scents
+POST  {{baseUrl}}/perfumes/4/scents
 Content-Type: application/json
 
 {
-    "scentId": 15
+    "scentId": 2
 }
 
 ### POST/perfumes/:id/tags
@@ -73,15 +73,15 @@ POST  {{baseUrl}}/genders
 Content-Type: application/json
 
 {
-    "type": "Unisexe"
+    "type": "femmelette"
 }
 
 ### PATCH /genders/:id
-PATCH  {{baseUrl}}/genders/1
+PATCH  {{baseUrl}}/genders/8
 Content-Type: application/json
 
 {
-    "type": "Hérosss"
+    "type": "Fe"
 }
 
 ### DELETE/genders/:id
@@ -154,8 +154,8 @@ POST  {{baseUrl}}/tags
 Content-Type: application/json
 
 {
-    "label": "Subtil",
-    "color": "#F0F0F0"
+    "label": "Bom",
+    "color": "#65350F"
 }
 
 
@@ -164,8 +164,7 @@ PATCH  {{baseUrl}}/tags/1
 Content-Type: application/json
 
 {
-    "label" :"Senteurs d'hiver",
-    "color": "#fff0ff"
+    "color" :"#FF00FF"
 }
 
 ### DELETE/tags/:id

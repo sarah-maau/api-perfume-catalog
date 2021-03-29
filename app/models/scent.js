@@ -59,11 +59,21 @@ class Scent {
      * @returns {Scent} returns an instance of scent (+ an array of associated perfumes' name)
      */
     static async findOne(id){
-        const { rows } = await db.query('SELECT * FROM one_scent($1)', [id]);
+        const { rows } = await db.query('SELECT * FROM one_scent($1);', [id]);
         
         if(!rows[0]) {
             throw new Error(`Oups il n'y a pas de parfum correspondant à la senteur ${id}`);
         }
+        return new Scent(rows[0]);
+    }
+
+    /**
+     * findOneByNote : A static and async method which returns the requested scent thanks to its note
+     * @param {Text} note - the scent note (from the request)
+     * @returns {Scent} returns an instance of scent
+     */
+    static async findOneByNote(note) {
+        const { rows } = await db.query('SELECT * FROM scent WHERE note=$1;', [note]);
         return new Scent(rows[0]);
     }
 
@@ -79,7 +89,7 @@ class Scent {
      * update : An async method which allows to modify an existing scent instance
      */
     async update() {
-        const { rows } = await db.query(`SELECT * FROM update_scent($1, $2)`, [this.id, this.note]);
+        const { rows } = await db.query(`SELECT * FROM update_scent($1, $2);`, [this.id, this.note]);
 
         if (!rows[0]) {
             throw new Error(`Oups la modification de la senteur ${id} n'a pas pu être effectuée`);
@@ -91,7 +101,7 @@ class Scent {
      * delete : An async method which allows to delete a scent instance
      */
     async delete () {
-        return await db.query('DELETE FROM scent WHERE scent.id = $1', [this.id]);
+        return await db.query('DELETE FROM scent WHERE scent.id=$1;', [this.id]);
     }
 
 };

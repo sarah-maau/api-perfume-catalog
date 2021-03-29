@@ -17,7 +17,7 @@ const scentController = {
     allScents: async (_, res) => {
         try {
             const scents = await Scent.findAll();
-            res.json(scents)
+            res.status(200).json(scents)
         }
         catch (error) {
             res.status(404).json(error.message);
@@ -37,7 +37,7 @@ const scentController = {
 
         try {
             const scent = await Scent.findOne(id);
-            res.json(scent);
+            res.status(200).json(scent);
         }
         catch (error) {
             res.status(404).json(error.message);
@@ -53,11 +53,21 @@ const scentController = {
      * @returns {JSON[]} - the scent saved
      */
     newScent: async (req, res) => {
-        const newScent = new Scent(req.body);
         
         try {
+            if(!req.body.note || req.body.note.length < 2) {
+                return res.status(403).json(`Merci de renseigner une note valide`);
+            }
+
+            // check if note already exists 
+            const scent = await Scent.findOneByNote(req.body.note);
+            if(scent.id) {
+                return res.status(403).json(`La note ${scent.note} existe déjà sous l'id ${scent.id}`);
+            }
+
+            const newScent = new Scent(req.body);
             await newScent.insert();
-            res.json(newScent);
+            res.status(201).json(newScent);
         }
         catch (error) {
             res.status(403).json(error.message);
@@ -76,13 +86,18 @@ const scentController = {
         const data = {
             perfumeId: Number(req.params.id),
             scentId: req.body.scentId
-        }
-            
-        const newAssociation = new PerfumeHasScent(data);
+        };
 
         try {
+            // check if the association already exists 
+            const association = await PerfumeHasScent.findOne(data.perfumeId, data.scentId);
+            if(association.id) {
+                return res.status(403).json(`L'association entre le parfum n°${association.perfumeId} et la senteur n°${association.scentId} existe déjà`)
+            }
+
+            const newAssociation = new PerfumeHasScent(data);
             await newAssociation.insert();
-            res.json(newAssociation);
+            res.status(201).json(newAssociation);
         }
         catch (error) {
             res.status(403).json(error.message);
@@ -99,14 +114,24 @@ const scentController = {
      */
     updateOneScent: async (req, res) => {
         const data = {
-            id: req.params.id, // la scent à modifier
-            note: req.body.note // l'info donnée (seulement la note)
+            id: req.params.id, // scent to modify
+            note: req.body.note // data input
         };
 
         try { 
+            // there is just one parameter to change (note), so if there is no data we can't modify the scent
+            if(!data.note && data.note.length < 2) {
+                return res.status(403).json(`Merci de renseigner une note valide`);
+            }
+
+            // check if note already exists 
+            const scent = await Scent.findOneByType(data.note);
+            if(scent.id) {
+                return res.status(403).json(`La note ${scent.note} existe déjà sous l'id ${scent.id}`);
+            }
             const updatedScent = new Scent(data);
             await updatedScent.update();
-            res.json(updatedScent); 
+            res.status(201).json(updatedScent); 
         }
         catch (error) {
             res.status(403).json(error.message);
@@ -125,10 +150,9 @@ const scentController = {
         const { id } = req.params;
 
         try {
-            
             const scent = await Scent.findOne(id);
             await scent.delete();
-            res.json({ 
+            res.status(201).json({ 
                 ok: true,
                 message: `La senteur ${id} a bien été supprimée`
             });
@@ -152,7 +176,7 @@ const scentController = {
         try {
             const scent = await PerfumeHasScent.findOne(perfumeId, scentId);
             await scent.delete();
-            res.json({ 
+            res.status(201).json({ 
                 ok: true,
                 message: `L'association entre le parfum ${perfumeId} et la senteur ${scentId} a bien été supprimée`
             });

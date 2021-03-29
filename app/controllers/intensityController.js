@@ -16,7 +16,7 @@ const intensityController = {
     allIntensities: async (_, res) => {
         try {
             const intensities = await Intensity.findAll();
-            res.json(intensities);
+            res.status(200).json(intensities);
         }
         catch (error) {
             res.status(404).json(error.message);
@@ -36,7 +36,7 @@ const intensityController = {
 
         try {
             const intensity = await Intensity.findOne(id);
-            res.json(intensity);
+            res.status(200).json(intensity);
         }
         catch (error) {
             res.status(404).json(error.message);
@@ -52,11 +52,20 @@ const intensityController = {
      * @returns {JSON[]} - the intensity saved
      */
     newIntensity: async (req, res) => {
-        const newIntensity = new Intensity(req.body);
-
         try {
+            if(!req.body.type || req.body.type.length < 5) {
+                return res.status(403).json(`Merci de renseigner un type valide`);
+            }
+
+            // check if intensity already exists 
+            const intensity = await Intensity.findOneByType(req.body.type);
+            if(intensity.id) {
+                return res.status(403).json(`L'intensité ${intensity.type} existe déjà sous l'id ${intensity.id}`);
+            }
+
+            const newIntensity = new Intensity(req.body);
             await newIntensity.insert();
-            res.json(newIntensity);
+            res.status(201).json(newIntensity);
         }
         catch (error) {
             res.status(403).json(error.message);
@@ -73,14 +82,25 @@ const intensityController = {
      */
     updateOneIntensity: async (req, res) => {
         const data = {
-            id: req.params.id, // l'intensité à modifier 
-            type: req.body.type // l'info donnée (seulement le type)
+            id: req.params.id, // intensity to modify
+            type: req.body.type // data input
         };
 
         try { 
+            // there is just one parameter to change (type), so if there is no data we can't modify the intensity
+            if(!data.type && data.type.length < 5) {
+                return res.status(403).json(`Merci de renseigner un type valide`);
+            }
+
+            // check if intensity already exists 
+            const intensity = await Intensity.findOneByType(data.type);
+            if(intensity.id) {
+                return res.status(403).json(`L'intensité ${intensity.type} existe déjà sous l'id ${intensity.id}`);
+            }
+
             const updatedIntensity = new Intensity(data);
             await updatedIntensity.update();
-            res.json(updatedIntensity); 
+            res.statusjson(updatedIntensity); 
         }
         catch (error) {
             res.status(403).json(error.message);
@@ -100,9 +120,8 @@ const intensityController = {
 
         try {
             const intensity = await Intensity.findOne(id);
-            
             await intensity.delete();
-            res.json({ 
+            res.status(201).json({ 
                 ok: true,
                 message: `La concentration ${id} a bien été supprimée`
             });

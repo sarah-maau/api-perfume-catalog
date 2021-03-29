@@ -44,7 +44,7 @@ class Intensity {
      * @returns {Intensity[]} returns an array of gender instances
      */
     static async findAll() {
-        const { rows } = await db.query('SELECT * FROM intensity');
+        const { rows } = await db.query('SELECT * FROM intensity;');
 
         if(!rows) {
             throw new Error(`Oups aucune concentration trouvée`);
@@ -58,13 +58,24 @@ class Intensity {
      * @returns {Intensity} returns an instance of intensity (+ an array of associated perfumes' name)
      */
     static async findOne(id) {
-        const { rows } = await db.query('SELECT * FROM one_intensity($1)', [id]);
+        const { rows } = await db.query('SELECT * FROM one_intensity($1);', [id]);
 
         if(!rows [0]) {
             throw new Error(`Oups il n'y a pas de parfum correspondant au type de concentration ${id}`);
         }
         return new Intensity(rows[0]);
     }
+
+    /**
+     * findOneByType : A static and async method which returns the requested intensity thanks to its type
+     * @param {Text} type - the intensity type (from the request)
+     * @returns {Intensity} returns an instance of intensity
+     */
+    static async findOneByType(type) {
+        const { rows } = await db.query('SELECT * FROM intensity WHERE type=$1;', [type]);
+        return new Intensity(rows[0]);
+    }
+
 
     /**
      * save : An async method which allows to save the new intensity instance created
@@ -78,7 +89,7 @@ class Intensity {
      * update : An async method which allows to modify an existing intensity instance
      */
     async update() {
-        const { rows } = await db.query(`SELECT * FROM update_intensity($1, $2)`, [this.id, this.type]);
+        const { rows } = await db.query(`SELECT * FROM update_intensity($1, $2);`, [this.id, this.type]);
 
         if (!rows[0]) {
             throw new Error(`Oups la modification de la concentration ${id} n'a pas pu être effectuée`);
@@ -90,7 +101,7 @@ class Intensity {
      * delete : An async method which allows to delete an intensity instance
      */
     async delete() {
-        return await db.query('DELETE FROM gender WHERE gender.id = $1', [this.id]);
+        return await db.query('DELETE FROM gender WHERE gender.id=$1;', [this.id]);
     }
 
 };

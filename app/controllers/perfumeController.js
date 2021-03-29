@@ -76,11 +76,11 @@ const perfumeController = {
 
             // check if perfume already exists
             const perfume = await Perfume.findOneByName(req.body.name);
-            if (perfume) {
+            if (perfume.id) {
                 return res.status(403).json(`Le parfum parfum ${perfume.name} existe déjà`);
             }
 
-            const newPerfume = new Perfume(data);
+            const newPerfume = new Perfume(req.body);
             await newPerfume.insert();
             res.status(201).json(newPerfume);
         }
@@ -105,7 +105,7 @@ const perfumeController = {
         console.log(data)
 
         try {      
-            let perfume= await Perfume.findOne(id);
+            let perfume = await Perfume.findOne(id);
 
             // check data input
             if(data.name && data.name.length < 2 ) {

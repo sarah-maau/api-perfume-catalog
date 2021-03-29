@@ -44,7 +44,7 @@ class Gender {
      * @returns {Gender[]} returns an array of gender instances
      */
     static async findAll() {
-        const { rows } = await db.query('SELECT * FROM gender');
+        const { rows } = await db.query('SELECT * FROM gender;');
         
         if(!rows) {
             throw new Error(`Oups aucun genre trouvé`);
@@ -58,11 +58,21 @@ class Gender {
      * @returns {Gender} returns an instance of gender (+ an array of associated perfumes' name)
      */
     static async findOne(id) {
-        const { rows } = await db.query('SELECT * FROM one_gender($1)', [id]);
+        const { rows } = await db.query('SELECT * FROM one_gender($1);', [id]);
         
         if(!rows[0]) {
             throw new Error(`Oups il n'y a pas de parfum correspondant au genre ${id}`);
         }
+        return new Gender(rows[0]);
+    }
+
+    /**
+     * findOneByType : A static and async method which returns the requested gender thanks to its type
+     * @param {Text} type - the gender type (from the request)
+     * @returns {Gender} returns an instance of gender
+     */
+    static async findOneByType(type) {
+        const { rows } = await db.query('SELECT * FROM gender WHERE type=$1;', [type]);
         return new Gender(rows[0]);
     }
 
@@ -78,7 +88,7 @@ class Gender {
      * update : An async method which allows to modify an existing gender instance
      */
     async update() {
-        const { rows } = await db.query(`SELECT * FROM update_gender($1, $2)`, [this.id, this.type]);
+        const { rows } = await db.query(`SELECT * FROM update_gender($1, $2);`, [this.id, this.type]);
         
         if (!rows[0]) {
             throw new Error(`Oups la modification du genre ${id} n'a pas pu être effectuée`);
@@ -90,7 +100,7 @@ class Gender {
      * delete : An async method which allows to delete a gender instance
      */
     async delete() {
-        return await db.query('DELETE FROM gender WHERE gender.id = $1', [this.id]);
+        return await db.query('DELETE FROM gender WHERE gender.id=$1;', [this.id]);
     }
 
 };
