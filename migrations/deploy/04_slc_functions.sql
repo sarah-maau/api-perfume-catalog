@@ -6,11 +6,14 @@ BEGIN;
 CREATE TYPE perfume_type AS (
 	id int,
 	"name" text,
+	brand_id int,
 	brand text,
 	creator text,
-	year_of_creation int,
+	year_of_creation date,
 	score int,
+	gender_id int,
 	gender text,
+	intensity_id int,
 	intensity text, 
 	tag text[],
 	scent text[]
@@ -49,11 +52,15 @@ CREATE type scent_type AS (
 CREATE FUNCTION one_perfume (perfumeId int) RETURNS SETOF perfume_type AS $$
 	SELECT DISTINCT perfume.id,
 	perfume.name,
+	brand_id brandId,
 	brand.name brand,
 	creator,
-	date_part('year' , perfume.year_of_creation)::int year_of_creation,
+	--date_part('year' , perfume.year_of_creation)::int 
+	year_of_creation,
 	score,
+	gender_id genderId,
 	gender.type gender,
+	intensity_id intensityId,
 	intensity.type intensity,
 	ARRAY_AGG (DISTINCT tag.label) tag,
 	ARRAY_AGG (DISTINCT scent.note ORDER BY scent.note) scent

@@ -14,11 +14,29 @@ class PerfumeHasTag {
     perfumeId;
     tagId;
 
-    set perfume_id (val) {
+    // GETTERS
+    get id() {
+        return this.id;
+    }
+
+    get perfumeId() {
+        return this.perfumeId;
+    }
+
+    get tagId() {
+        return this.tagId;
+    }
+
+    // SETTERS
+    set id(val) {
+        this.id = val;
+    }
+
+    set perfume_id(val) {
         this.perfumeId = val;
     }
 
-    set tag_id (val) {
+    set tag_id(val) {
         this.tagId = val;
     }
 
@@ -49,7 +67,7 @@ class PerfumeHasTag {
     /**
      * save : An async method which allows to save the new association instance between a perfume and a tag
      */
-    async save() {
+    async insert() {
         const { rows } = await db.query(`INSERT INTO perfume_has_tag(perfume_id, tag_id) VALUES ($1, $2) RETURNING *;`, [this.perfumeId, this.tagId]);
         this.id = rows[0].id;
     }

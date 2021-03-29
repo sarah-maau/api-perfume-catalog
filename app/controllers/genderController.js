@@ -55,7 +55,7 @@ const genderController = {
         const newGender = new Gender(req.body);
 
         try {
-            await newGender.save();
+            await newGender.insert();
             res.json(newGender);
         }
         catch (error) {

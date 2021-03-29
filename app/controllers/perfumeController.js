@@ -15,7 +15,7 @@ const perfumeController = {
     allPerfumes: async (_, res) => {
         try {
             const perfumes = await Perfume.findAll();
-            res.json(perfumes);
+            res.status(200).json(perfumes);
         }
         catch(error){
             res.status(404).json(error.message);
@@ -35,7 +35,7 @@ const perfumeController = {
         
         try {
             const perfume = await Perfume.findOne(id);
-            res.json(perfume);
+            res.status(200).json(perfume);
         }
         catch(error) {
             res.status(404).json(error.message);
@@ -51,11 +51,38 @@ const perfumeController = {
      * @returns {JSON[]} - the perfume saved
      */
     newPerfume: async (req, res) => {
-        const newPerfume = new Perfume(req.body);
+        const now = Date.now();
+        const yearOfCreation = new Date(req.body.yearOfCreation);
 
         try {
-            await newPerfume.save();
-            res.json(newPerfume);
+            if(!req.body.name || req.body.name.length < 2 ) {
+                return res.status(403).json(`Merci de renseigner un nom de parfum valide`);
+            }
+            if(!req.body.creator || req.body.creator.length < 5 ) {
+                return res.status(403).json(`Merci de renseigner un nom de créateur valide`);
+            }
+            if(yearOfCreation > now) {
+                return res.status(403).json(`Le parfum ne peut avoir été créé après aujourd'hui !`);
+            }
+            if(!req.body.brandId) {
+                return res.status(403).json(`Le parfum doit avoir une marque`);
+            }
+            if(!req.body.intensityId) {
+                return res.status(403).json(`Le parfum doit avoir une intensité`);
+            }
+            if(!req.body.genderId) {
+                return res.status(403).json(`Le parfum doit avoir un genre`);
+            }
+
+            // check if perfume already exists
+            const perfume = await Perfume.findOneByName(req.body.name);
+            if (perfume) {
+                return res.status(403).json(`Le parfum parfum ${perfume.name} existe déjà`);
+            }
+
+            const newPerfume = new Perfume(data);
+            await newPerfume.insert();
+            res.status(201).json(newPerfume);
         }
         catch (error) {
             res.status(403).json(error.message);
@@ -70,22 +97,45 @@ const perfumeController = {
      * @param {Express.Response} response - the object representing the response
      * @returns {JSON[]} - the perfume modified
      */
-    updateOnePerfume: async (req, res) => {
-        const { id } = req.params; // le perfume à modifier
-        const data = req.body; // les infos données
+    updateOnePerfume: async (req, res, next) => {
+        const { id } = req.params; // perfume to modify
+        const data = req.body; // data input
+        const now = Date.now();
+        const yearOfCreation = new Date(data.yearOfCreation);
+        console.log(data)
 
         try {      
-            const perfumeToUpdate = await Perfume.findOne(id);
+            let perfume= await Perfume.findOne(id);
 
-            for (const field in data) {
-                perfumeToUpdate[field] = data[field];
+            // check data input
+            if(data.name && data.name.length < 2 ) {
+                return res.status(403).json(`Merci de renseigner un nom de parfum valide`);
             }
-
-            const updatedPerfume = new Perfume(perfumeToUpdate);
-            await updatedPerfume.update();
-            res.json(updatedPerfume); 
+            if(data.creator && data.creator.length < 5 ) {
+                return res.status(403).json(`Merci de renseigner un nom de créateur valide`);
+            }
+            if(yearOfCreation > now) {
+                return res.status(403).json(`Le parfum ne peut avoir été créé après aujourd'hui !`);
+            }
+            for (const field in data) {
+                if(typeof perfume[field] !== undefined) {
+                    perfume[field] = data[field]
+                }
+            }
+            
+            if (perfume === undefined) {
+                next(); 
+            }
+            else {
+                // merge "old" data with new one(s)
+                perfume = {...perfume, ...data};
+                const updatedPerfume = new Perfume(perfume);
+                await updatedPerfume.update();
+                res.status(201).json(updatedPerfume);
+            }
         }
         catch (error) {
+            console.trace(error);
             res.status(400).json(error.message);
         }
     },
@@ -104,9 +154,9 @@ const perfumeController = {
         try {
             const perfume = await Perfume.findOne(id);
             await perfume.delete();
-            res.json({ 
+            res.status(201).json({ 
                 ok: true,
-                message: `Le parfum ${id} a bien été supprimé`
+                message: `${perfume.name} a bien été supprimé`
             });
         } 
         catch(error) {

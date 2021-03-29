@@ -12,6 +12,32 @@ class Tag {
     id;
     label;
     color;
+
+     // GETTERS
+    get id() {
+        return this.id;
+    }
+
+    get label() {
+        return this.label;
+    }
+
+    get color() {
+        return this.color;
+    }
+
+    // SETTERS
+    set id(val) {
+        this.id = val;
+    }
+
+    set label(val) {
+        this.label = val;
+    }
+
+    set color(val) {
+        this.color = val;
+    }
     
     /**
      * Creates a tag
@@ -53,7 +79,7 @@ class Tag {
     /**
      * save : An async method which allows to save the new tag instance created
      */
-    async save() {
+    async insert() {
         const { rows } = await db.query(`SELECT * FROM new_tag($1)`, [this]);
         this.id = rows[0].id;
     }

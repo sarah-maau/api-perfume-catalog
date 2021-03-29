@@ -56,7 +56,7 @@ const scentController = {
         const newScent = new Scent(req.body);
         
         try {
-            await newScent.save();
+            await newScent.insert();
             res.json(newScent);
         }
         catch (error) {
@@ -81,7 +81,7 @@ const scentController = {
         const newAssociation = new PerfumeHasScent(data);
 
         try {
-            await newAssociation.save();
+            await newAssociation.insert();
             res.json(newAssociation);
         }
         catch (error) {

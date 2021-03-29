@@ -10,14 +10,14 @@
 GET {{baseUrl}}/perfumes
 
 ### GET/perfumes/:id
-GET {{baseUrl}}/perfumes/10
+GET {{baseUrl}}/perfumes/4
 
 ### POST/perfumes
 POST  {{baseUrl}}/perfumes
 Content-Type: application/json
 
 {
-    "name": "Chanel N°5",
+    "name": "CK One",
     "creator": "Ernest Beaux",
     "yearOfCreation": "1921-05-05",
     "score": 3,
@@ -27,17 +27,11 @@ Content-Type: application/json
 }
 
 ### PATCH /perfumes/:id
-PATCH  {{baseUrl}}/perfumes/2
+PATCH  {{baseUrl}}/perfumes/4
 Content-Type: application/json
 
 {
-    "name": "J'adore",
-    "creator": "Monique",
-    "yearOfCreation": "2019-05-03",
-    "score": 3,
-    "brandId": 4,
-    "intensityId": 2,
-    "genderId": 1
+    "creator": "Michel"
 }
 
 ### POST/perfumes/:id/scents

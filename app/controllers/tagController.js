@@ -56,7 +56,7 @@ const tagController = {
         const newTag = new Tag(req.body);
 
         try {
-            await newTag.save();
+            await newTag.insert();
             res.json(newTag);
         }
         catch (error) {
@@ -81,7 +81,7 @@ const tagController = {
         const newAssociation = new PerfumeHasTag(data);
 
         try {
-            await newAssociation.save();
+            await newAssociation.insert();
             res.json(newAssociation);
         }
         catch (error) {

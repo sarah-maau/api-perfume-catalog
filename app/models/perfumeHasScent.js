@@ -14,11 +14,29 @@ class PerfumeHasScent {
     perfumeId;
     scentId;
 
-    set perfume_id (val) {
+    // GETTERS
+    get id() {
+        return this.id;
+    }
+
+    get perfumeId() {
+        return this.perfumeId;
+    }
+
+    get scentId() {
+        return this.scentId;
+    }
+
+    // SETTERS
+    set id(val) {
+        this.id = val;
+    }
+
+    set perfume_id(val) {
         this.perfumeId = val;
     }
 
-    set scent_id (val) {
+    set scent_id(val) {
         this.scentId = val;
     }
 
@@ -51,7 +69,7 @@ class PerfumeHasScent {
     /**
      * save : An async method which allows to save the new association instance between a perfume and a scent
      */
-    async save() {
+    async insert() {
         const { rows } = await db.query(`INSERT INTO perfume_has_scent(perfume_id, scent_id) VALUES ($1, $2) RETURNING *;`, [this.perfumeId, this.scentId]);
         this.id = rows[0].id;
     }

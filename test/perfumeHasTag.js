@@ -1,6 +1,6 @@
 const { expect } = require('chai');
 
-const { perfumeTagSchema } = require('../app/schemas/modelSchemas');
+const { perfumeTagSchema } = require('../app/services/schema');
 
 let mockPS;
 

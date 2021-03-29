@@ -9,7 +9,8 @@ SELECT DISTINCT
 	perfume.name,
 	brand.name brand,
 	creator,
-	date_part('year' , perfume.year_of_creation) year_of_creation,
+	--date_part('year' , perfume.year_of_creation) 
+	year_of_creation,
 	score,
 	gender.type gender,
 	intensity.type intensity,

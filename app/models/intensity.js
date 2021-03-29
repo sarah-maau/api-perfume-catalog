@@ -11,6 +11,24 @@ class Intensity {
     id;
     type;
 
+     // GETTERS
+    get id() {
+        return this.id;
+    }
+
+    get type() {
+        return this.type;
+    }
+
+    // SETTERS
+    set id(val) {
+        this.id = val;
+    }
+
+    set type(val) {
+        this.type = val;
+    }
+    
     /**
      * Creates an intensity
      * @param {Object} data
@@ -51,7 +69,7 @@ class Intensity {
     /**
      * save : An async method which allows to save the new intensity instance created
      */
-    async save() {
+    async insert() {
         const { rows } = await db.query('INSERT INTO intensity(type) VALUES ($1) RETURNING *;', [this.type]);
         this.id = rows[0].id;
     }

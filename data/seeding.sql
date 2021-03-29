@@ -1,15 +1,6 @@
 --- fichier seeding pour dev
 
 -- delete toutes les données
-DELETE FROM brand;
-DELETE FROM intensity;
-DELETE FROM gender;
-DELETE FROM tag;
-DELETE FROM scent;
-DELETE FROM perfume_has_tag;
-DELETE FROM perfume_has_scent;
-DELETE FROM perfume;
-
 TRUNCATE TABLE brand, intensity, gender, tag, scent, perfume, perfume_has_tag, perfume_has_scent RESTART IDENTITY;
 
 -- table brand

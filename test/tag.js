@@ -1,6 +1,6 @@
 const { expect } = require('chai');
 
-const { tagSchema } = require('../app/schemas/modelSchemas');
+const { tagSchema } = require('.../app/services/schema');
 
 let mockTag;
 

@@ -24,19 +24,69 @@ class Perfume {
     intensityId;
     genderId;
 
-    set year_of_creation (val) {
+    // GETTERS
+    get id() {
+        return this.id;
+    }
+
+    get name() {
+        return this.name;
+    }
+
+    get creator() {
+        return this.creator;
+    }
+
+    get yearOfCreation() {
+        return this.yearOfCreation;
+    }
+
+    get score() {
+        return this.score;
+    }
+
+    get brandId() {
+        return this.brandId;
+    }
+
+    get intensityId() {
+        return this.intensityId;
+    }
+
+    get genderId() {
+        return this.genderId;
+    }
+
+    // SETTERS
+    set id(val) {
+        this.id = val;
+    }
+
+    set name(val) {
+        this.name = val;
+    }
+
+    set creator(val) {
+        this.creator = val;
+    }
+
+    set year_of_creation(val) {
         this.yearOfCreation = val;
     }
 
-    set brand_id (val) {
+    set score(val) {
+        this.score = val;
+    }
+
+    set brand_id(val) {
         this.brandId = val;
     }
 
-    set intensity_id (val) {
+    set intensity_id(val) {
         this.intensityId = val;
     }
 
-    set gender_id (val) {
+    set gender_id(val) {
         this.genderId = val;
     }
 
@@ -55,7 +105,7 @@ class Perfume {
      * @returns {Perfume[]} returns an array of perfume instances (instead of gender / brand / intensity id, it returns the name of them + array of tags and scents)
      */
     static async findAll() {
-        const { rows } = await db.query('SELECT * FROM all_from_perfumes');
+        const { rows } = await db.query('SELECT * FROM all_from_perfumes;');
 
         if(!rows) {
             throw new Error(`Oups aucun parfum trouvé`)
@@ -69,10 +119,24 @@ class Perfume {
      * @returns {Perfume} returns an instance of perfume (+ an array of associated tags and scents)
      */
     static async findOne(id) {
-        const { rows } = await db.query('SELECT * FROM one_perfume($1)', [id]);
+        const { rows } = await db.query('SELECT * FROM one_perfume($1);', [id]);
         
         if (!rows[0]) {
             throw new Error(`Oups, il n'y a pas de parfum dont l'id est ${id}`)
+        }
+        return new Perfume(rows[0]);
+    }
+
+        /**
+     * findOne : A static and async method which returns the requested perfume and an array of the associated tags and scents
+     * @param {Text} name - the perfume name (from the request)
+     * @returns {Perfume} returns an instance of perfume 
+     */
+    static async findOneByName(name) {
+        const { rows } = await db.query('SELECT * FROM perfume WHERE name =$1;', [name]);
+        
+        if (!rows[0]) {
+            throw new Error(`Oups, il n'y a pas de parfum nommé ${name}`)
         }
         return new Perfume(rows[0]);
     }
@@ -83,11 +147,11 @@ class Perfume {
     // pour qu'un parfum fraichement créé soit visible, il faut qu'il ait au minimum une senteur et un tag
     // pour pallier ce problème, on ajoute par défaut un tag et une senteur dès la création
     // l'utilisateur pourra toujours modifier ces associations dans un second temps
-    async save() {
+    async insert() {
         const { rows } = await db.query(`SELECT * FROM new_perfume($1);`, [this]); 
         this.id = rows[0].id;
-        await db.query(`INSERT INTO perfume_has_scent(perfume_id, scent_id) VALUES($1, $2)`, [this.id, 1]);
-        await db.query(`INSERT INTO perfume_has_tag(perfume_id, tag_id) VALUES($1, $2)`, [this.id, 1]);
+        await db.query(`INSERT INTO perfume_has_scent(perfume_id, scent_id) VALUES($1, $2);`, [this.id, 1]);
+        await db.query(`INSERT INTO perfume_has_tag(perfume_id, tag_id) VALUES($1, $2);`, [this.id, 1]);
         console.log(rows[0])
     }
 
@@ -95,7 +159,7 @@ class Perfume {
      * update : An async method which allows to modify an existing perfume instance
      */
     async update() {
-        const { rows } = await db.query(`SELECT * FROM update_perfume ($1, $2, $3, $4, $5, $6, $7, $8)`, [this.id, this.name, this.creator, this.yearOfCreation, this.score, this.brandId, this.intensityId, this.genderId]);
+        const { rows } = await db.query(`SELECT * FROM update_perfume ($1, $2, $3, $4, $5, $6, $7, $8);`, [this.id, this.name, this.creator, this.yearOfCreation, this.score, this.brandId, this.intensityId, this.genderId]);
         
         if(!rows[0]) {
             throw new Error(`Oups la modification du parfum ${id} n'a pas pu être effectuée`);
@@ -107,7 +171,7 @@ class Perfume {
      * delete : An async method which allows to delete an intensity instance
      */
     async delete() {
-        return await db.query('DELETE FROM perfume WHERE perfume.id = $1', [this.id]);
+        return await db.query('DELETE FROM perfume WHERE perfume.id = $1;', [this.id]);
     }
 
 };

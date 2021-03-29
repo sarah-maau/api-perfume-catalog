@@ -11,6 +11,24 @@ class Gender {
     id;
     type;
 
+    // GETTERS
+    get id() {
+        return this.id;
+    }
+
+    get type() {
+        return this.type;
+    }
+
+    // SETTERS
+    set id(val) {
+        this.id = val;
+    }
+
+    set type(val) {
+        this.type = val;
+    }
+
     /**
      * Creates a gender
      * @param {Object} data
@@ -51,7 +69,7 @@ class Gender {
     /**
      * save : An async method which allows to save the new gender instance created
      */
-    async save() {
+    async insert() {
         const { rows } = await db.query('INSERT INTO gender(type) VALUES ($1) RETURNING *;', [this.type]);
         this.id = rows[0].id;
     }

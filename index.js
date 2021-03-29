@@ -16,12 +16,24 @@ options.swaggerDefinition.host = `localhost:${port}`;
 
 expressSwagger(options)
 
-const router = require('./app/router');
+const perfumeRouter = require('./app/routers/perfumeRouter');
+const intensityRouter = require('./app/routers/intensityRouter');
+const scentRouter = require('./app/routers/scentRouter');
+const genderRouter = require('./app/routers/genderRouter');
+const tagRouter = require('./app/routers/tagRouter');
 
 // autorisation : tout le monde peut venir chercher l'info
 app.use(cors());
 
 app.use(express.json());
 
-app.use('/api', router);
+app.use(
+    '/api', 
+    perfumeRouter,
+    intensityRouter,
+    scentRouter,
+    genderRouter,
+    tagRouter,
+);
+
 app.listen(port, () => console.log(`Listening on port ${port}`));

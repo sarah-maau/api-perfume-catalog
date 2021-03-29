@@ -12,6 +12,24 @@ class Scent {
     id;
     note;
 
+     // GETTERS
+    get id() {
+        return this.id;
+    }
+
+    get note() {
+        return this.note;
+    }
+
+    // SETTERS
+    set id(val) {
+        this.id = val;
+    }
+
+    set note(val) {
+        this.note = val;
+    }
+
     /**
      * Creates a scent
      * @param {Object} data
@@ -52,7 +70,7 @@ class Scent {
     /**
      * save : An async method which allows to save the new scent instance created
      */
-    async save() {
+    async insert() {
         const { rows } = await db.query(`INSERT INTO scent(note) VALUES ($1) RETURNING *;`, [this.note]);
         this.id = rows[0].id;
     }

@@ -23,14 +23,14 @@ const variations = {
  * @property {number} genderID - the perfume's genderId, positive integer, min. 1, required for the POST route
  */
 
-const perfumeSchema = Joi.object ({
-    name: Joi.string().min(2).required().alter(variations),
-    creator: Joi.string().min(5).required().alter(variations),
-    yearOfCreation: Joi.date().less('now').required().alter(variations),
-    score: Joi.number().integer().min(0).max(5).required().alter(variations),
-    brandId: Joi.number().integer().positive().min(1).required().alter(variations),
-    intensityId: Joi.number().integer().positive().min(1).required().alter(variations),
-    genderId: Joi.number().integer().positive().min(1).required().alter(variations),
+const perfumeSchema = Joi.object({
+    name: Joi.string().min(2).alter(variations),
+    creator: Joi.string().min(5).alter(variations),
+    yearOfCreation: Joi.date().less('now').alter(variations),
+    score: Joi.number().integer().min(0).max(5).alter(variations),
+    brandId: Joi.number().integer().positive().min(1).alter(variations),
+    intensityId: Joi.number().integer().positive().min(1).alter(variations),
+    genderId: Joi.number().integer().positive().min(1).alter(variations),
 });
 
 /**

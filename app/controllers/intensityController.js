@@ -55,7 +55,7 @@ const intensityController = {
         const newIntensity = new Intensity(req.body);
 
         try {
-            await newIntensity.save();
+            await newIntensity.insert();
             res.json(newIntensity);
         }
         catch (error) {
