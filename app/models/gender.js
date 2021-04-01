@@ -77,7 +77,7 @@ class Gender {
     }
 
     /**
-     * save : An async method which allows to save the new gender instance created
+     * insert : An async method which allows to insert a new gender instance
      */
     async insert() {
         const { rows } = await db.query('INSERT INTO gender(type) VALUES ($1) RETURNING *;', [this.type]);

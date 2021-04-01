@@ -78,7 +78,7 @@ class Scent {
     }
 
     /**
-     * save : An async method which allows to save the new scent instance created
+     * insert : An async method which allows to insert a new scent instance 
      */
     async insert() {
         const { rows } = await db.query(`INSERT INTO scent(note) VALUES ($1) RETURNING *;`, [this.note]);

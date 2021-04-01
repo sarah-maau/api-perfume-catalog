@@ -63,7 +63,7 @@ class PerfumeHasScent {
     }
 
     /**
-     * save : An async method which allows to save the new association instance between a perfume and a scent
+     * insert : An async method which allows to insert a new association instance between a perfume and a scent
      */
     async insert() {
         const { rows } = await db.query(`INSERT INTO perfume_has_scent(perfume_id, scent_id) VALUES ($1, $2) RETURNING *;`, [this.perfumeId, this.scentId]);

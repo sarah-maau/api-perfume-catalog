@@ -62,7 +62,7 @@ class PerfumeHasTag {
     }
 
     /**
-     * save : An async method which allows to save the new association instance between a perfume and a tag
+     * insert : An async method which allows to insert a new association instance between a perfume and a tag
      */
     async insert() {
         const { rows } = await db.query(`INSERT INTO perfume_has_tag(perfume_id, tag_id) VALUES ($1, $2) RETURNING *;`, [this.perfumeId, this.tagId]);

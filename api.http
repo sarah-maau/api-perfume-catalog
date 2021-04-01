@@ -7,7 +7,7 @@
 # PERFUMES
 
 ### GET/perfumes
-GET {{baseUrl}}/perfumes
+GET {{baseUrl}}/perfumes/4
 
 ### GET/perfumes/:id
 GET {{baseUrl}}/tags
@@ -17,7 +17,7 @@ POST  {{baseUrl}}/perfumes
 Content-Type: application/json
 
 {
-    "name": "CK Three",
+    "name": "CK Four",
     "creator": "Ernest Beaux",
     "yearOfCreation": "1921-05-05",
     "score": 3,

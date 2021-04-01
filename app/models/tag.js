@@ -88,7 +88,7 @@ class Tag {
     }
 
     /**
-     * save : An async method which allows to save the new tag instance created
+     * insert : An async method which allows to isnert a new tag instance 
      */
     async insert() {
         const { rows } = await db.query(`SELECT * FROM new_tag($1);`, [this]);

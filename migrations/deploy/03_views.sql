@@ -9,21 +9,20 @@ SELECT DISTINCT
 	perfume.name,
 	brand.name brand,
 	creator,
-	--date_part('year' , perfume.year_of_creation) 
-	year_of_creation,
+	date_part('year' , perfume.year_of_creation),
 	score,
 	gender.type gender,
 	intensity.type intensity,
 ARRAY_AGG (DISTINCT tag.label) tag,
 ARRAY_AGG (DISTINCT scent.note ORDER BY scent.note) scent
 FROM perfume
-	JOIN brand ON perfume.brand_id = brand.id
-	JOIN intensity ON perfume.intensity_id = intensity.id
-	JOIN gender ON perfume.gender_id = gender.id
-	JOIN perfume_has_scent ON perfume.id = perfume_has_scent.perfume_id
-	JOIN scent ON perfume_has_scent.scent_id = scent.id
-	JOIN perfume_has_tag ON perfume.id = perfume_has_tag.perfume_id
-	JOIN tag ON perfume_has_tag.tag_id = tag.id
+	LEFT JOIN brand ON perfume.brand_id = brand.id
+	LEFT JOIN intensity ON perfume.intensity_id = intensity.id
+	LEFT JOIN gender ON perfume.gender_id = gender.id
+	LEFT JOIN perfume_has_scent ON perfume.id = perfume_has_scent.perfume_id
+	LEFT JOIN scent ON perfume_has_scent.scent_id = scent.id
+	LEFT JOIN perfume_has_tag ON perfume.id = perfume_has_tag.perfume_id
+	LEFT JOIN tag ON perfume_has_tag.tag_id = tag.id
 GROUP BY perfume.id, brand.name, gender.type, intensity.type
 ORDER BY brand.name;
 

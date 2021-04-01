@@ -101,8 +101,7 @@ const perfumeController = {
         const { id } = req.params; // perfume to modify
         const data = req.body; // data input
         const now = Date.now();
-        const yearOfCreation = new Date(data.yearOfCreation);
-        console.log(data)
+        const yearOfCreation = new Date(data.yearOfCreation, 0);
 
         try {      
             let perfume = await Perfume.findOne(id);

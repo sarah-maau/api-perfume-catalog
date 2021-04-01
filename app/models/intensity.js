@@ -78,7 +78,7 @@ class Intensity {
 
 
     /**
-     * save : An async method which allows to save the new intensity instance created
+     * insert : An async method which allows to insert a new intensity instance 
      */
     async insert() {
         const { rows } = await db.query('INSERT INTO intensity(type) VALUES ($1) RETURNING *;', [this.type]);
