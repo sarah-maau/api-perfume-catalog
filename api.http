@@ -17,7 +17,7 @@ POST  {{baseUrl}}/perfumes
 Content-Type: application/json
 
 {
-    "name": "CK Four",
+    "name": "Chance",
     "creator": "Ernest Beaux",
     "yearOfCreation": "1921-05-05",
     "score": 3,
@@ -27,11 +27,11 @@ Content-Type: application/json
 }
 
 ### PATCH /perfumes/:id
-PATCH  {{baseUrl}}/perfumes/4
+PATCH  {{baseUrl}}/perfumes/6
 Content-Type: application/json
 
 {
-    "creator": "Michel"
+    "creator": "Maurice"
 }
 
 ### POST/perfumes/:id/scents
@@ -73,7 +73,7 @@ POST  {{baseUrl}}/genders
 Content-Type: application/json
 
 {
-    "type": "femmelette"
+    "type": "Unisexe"
 }
 
 ### PATCH /genders/:id
@@ -81,7 +81,7 @@ PATCH  {{baseUrl}}/genders/8
 Content-Type: application/json
 
 {
-    "type": "Fe"
+    "type": "Unisex"
 }
 
 ### DELETE/genders/:id
@@ -154,7 +154,7 @@ POST  {{baseUrl}}/tags
 Content-Type: application/json
 
 {
-    "label": "Bom",
+    "label": "Croquant",
     "color": "#65350F"
 }
 

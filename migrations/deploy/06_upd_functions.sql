@@ -2,31 +2,31 @@
 
 BEGIN;
 
--- création d'une méthode pour modifier les intensités
+-- create a method to modify intensities
 CREATE FUNCTION update_intensity(iId int, iType text) RETURNS intensity AS $$
 UPDATE intensity SET type=iType WHERE id=iId
 RETURNING *;
 $$ LANGUAGE sql;
 
--- création d'une méthode pour modifier les genres
+-- create a method to modify genders
 CREATE FUNCTION update_gender(gId int, gType text) RETURNS gender AS $$
 UPDATE gender SET type=gType WHERE id=gId
 RETURNING *;
 $$ LANGUAGE sql;
 
--- création d'une méthode pour modifier les senteurs
+-- create a method to modify scents
 CREATE FUNCTION update_scent(sId int, sNote text) RETURNS scent AS $$
 UPDATE scent SET note=sNote WHERE id =sId
 RETURNING *;
 $$ LANGUAGE sql;
 
--- création d'une méthode pour modifier les tags
+-- create a method to modify tags
 CREATE FUNCTION update_tag(tId int, tLabel text, tColor text) RETURNS tag AS $$
 UPDATE tag SET label=tLabel, color=tColor WHERE id =tId
 RETURNING *;
 $$ LANGUAGE sql;
 
--- création d'une fonction pour modifier les parfums
+-- create a method to modify perfumes
 CREATE FUNCTION update_perfume(
 	pid integer,
 	pname text,

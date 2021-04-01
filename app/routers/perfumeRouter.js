@@ -9,13 +9,13 @@ const perfumeController = require('../controllers/perfumeController');
 const scentController = require('../controllers/scentController');
 const tagController = require('../controllers/tagController');
 
-// schémas de validation des données (joi)
+// data validation schema (joi)
 const { perfumeSchema, perfumeScentSchema, perfumeTagSchema } = require('../services/schema');
 
-// validateur des données (joi)
+// data validator (joi)
 const { validateBody } = require('../services/validator');
 
-// service de mise en cache
+// caching service
 const cacheGenerator = require('../services/cache');
 const { cache, flush } = cacheGenerator({
     ttl:10000,
@@ -56,9 +56,7 @@ router.route('/perfumes/:id(\\d+)')
      * @param {Perfume.model} Perfume.body.required
      * @returns {JSON} 200 - the perfume modified
      */
-    .patch(flush, 
-        //TODO schema
-        perfumeController.updateOnePerfume)
+    .patch(flush, validateBody(perfumeSchema), perfumeController.updateOnePerfume)
     /**
      * @route DELETE /perfumes/{id}
      * @group Perfumes - perfume collection management

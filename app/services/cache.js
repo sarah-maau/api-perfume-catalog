@@ -42,21 +42,21 @@ const cacheGenerator = (options) => {
             console.log(theKey)
 
             if (await redis.exists(theKey)) {
-                // on la sort du registre
+                // take it out the register
                 const theValue = await redis.get(theKey).then(JSON.parse);
 
-                // et on répond directement à l'utilisateur
+                // and answer directly to the user
                 res.json(theValue);
                 
             } else {
                 const originalResponseJson = res.send.bind(res);
 
                 res.send = (theResponse) => {
-                    // on garde une trace des clés qu'on utilise
+                    // keep track of the used keys
                     keysIndex.add(theKey);
-                    // on stocke la réponse dans le cache
+                    // store the response in ythe cache
                     redis.setex(theKey, options.ttl, theResponse);
-                    // puis on appelle la version originale de response.json
+                    // call the original version of response.json
                     originalResponseJson(theResponse);
                 }
                 next();

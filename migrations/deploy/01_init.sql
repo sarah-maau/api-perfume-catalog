@@ -2,10 +2,10 @@
 
 BEGIN;
 
--- création du domaine posint (entier positif)
+-- creation of a posint domain (positive integer)
 CREATE DOMAIN posint AS int CHECK (value >= 0);
 
--- création des tables issues du MLD
+-- creation of tables from MLD 
 CREATE TABLE intensity (
     id int GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
     "type" text NOT NULL UNIQUE

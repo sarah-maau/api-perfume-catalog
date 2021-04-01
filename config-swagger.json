@@ -10,7 +10,11 @@
         "schemes": ["http"]
     },
         "files": [
-            "./app/router.js",
+            "./app/routers/genderRouter.js",
+            "./app/routers/intensityRouter.js",
+            "./app/routers/perfumeRouter.js",
+            "./app/routers/scentRouter.js",
+            "./app/routers/tagRouter.js",
             "./app/models/perfume.js",
             "./app/models/gender.js",
             "./app/models/intensity.js",

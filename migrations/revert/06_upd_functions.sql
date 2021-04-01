@@ -2,7 +2,7 @@
 
 BEGIN;
 
--- suppression des fonctions
+-- drop update functions
 DROP FUNCTION update_intensity;
 DROP FUNCTION update_gender;
 DROP FUNCTION update_scent;

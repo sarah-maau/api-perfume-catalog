@@ -2,17 +2,16 @@
 
 BEGIN;
 
--- ajout de la contrainte pour la couleur (elle doit respecter la forme hexadécimale)
+-- color constraint: it must respect the hexadecimal form
 ALTER TABLE tag ADD CONSTRAINT color_format CHECK (color ~* '^#[a-fA-F0-9]{2}[a-fA-F0-9]{2}[a-fA-F0-9]{2}$');
 
--- ajout de la contrainte sur la date de création (l'année de création doit être antérieure à celle en cours)
+-- date constraint: can't be later than today
 ALTER TABLE perfume ADD CONSTRAINT valid_year CHECK (year_of_creation <= CURRENT_DATE);
 
--- ajout de la contrainte sur les scores (doivent être compris entre 0 et 5 inclus)
+-- score constraint: must be between 0 and 5 (included)
 ALTER TABLE perfume ADD CONSTRAINT valid_score CHECK (score <= 5);
 
---  ajout d'une contrainte sur toutes les strings (interdire les valeurs incohérentes comme simple espace, chaîne vide)
-
+-- strings constraint: forbid inconsistent values like blank space or empty string
 ALTER TABLE perfume ADD CONSTRAINT valid_perfume_name CHECK (char_length(trim(both from "name")) >= 2);
 ALTER TABLE perfume ADD CONSTRAINT valid_creator CHECK (char_length(trim(both from creator)) >= 5);
 ALTER TABLE intensity ADD CONSTRAINT valid_intensity_type CHECK (char_length(trim(both from "type")) >= 5);

@@ -2,28 +2,28 @@
 
 BEGIN;
 
--- suppression des contraintes sur la table tag
+-- drop the constraints on the tag table 
 ALTER TABLE tag 
     DROP CONSTRAINT color_format,
     DROP CONSTRAINT valid_label;
 
--- suppression des contraintes sur la table perfume
+-- drop the constraints on the perfume table 
 ALTER TABLE perfume 
     DROP CONSTRAINT valid_year,
     DROP CONSTRAINT valid_score,
     DROP CONSTRAINT valid_perfume_name,
     DROP CONSTRAINT valid_creator;
 
--- suppression des contraintes sur la table intensity
+-- drop the constraints on the intensity table 
 ALTER TABLE intensity DROP CONSTRAINT valid_intensity_type;
 
--- suppression des contraintes sur la table gender
+-- drop the constraints on the gender table 
 ALTER TABLE gender DROP CONSTRAINT valid_gender_type;
 
--- suppression des contraintes sur la table brand
+-- drop the constraints on the brand table 
 ALTER TABLE brand DROP CONSTRAINT valid_brand_name;
 
--- suppression des contraintes sur la table scent
+-- drop the constraints on the scent table 
 ALTER TABLE scent DROP CONSTRAINT valid_note;
 
 COMMIT;

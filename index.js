@@ -4,8 +4,8 @@ const app = express();
 const port = process.env.PORT || 3300;
 const cors = require('cors');
 
-// configuration de Swagger 
-// visible depuis localhost:port/api-docs
+// Swagger configuration
+// visible from localhost:port/api-docs
 const expressSwagger = require('express-swagger-generator')(app);
 
 let options = require('./config-swagger.json');

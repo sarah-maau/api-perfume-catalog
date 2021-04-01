@@ -7,13 +7,13 @@ const router = Router();
 
 const genderController = require('../controllers/genderController');
 
-// schémas de validation des données (joi)
+// data validation schema (joi)
 const { genderSchema } = require('../services/schema');
 
-// validateur des données (joi)
+// data validator (joi)
 const { validateBody } = require('../services/validator');
 
-// service de mise en cache
+// caching service
 const cacheGenerator = require('../services/cache');
 const { cache, flush } = cacheGenerator({
     ttl:10000,

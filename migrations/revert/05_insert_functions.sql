@@ -2,7 +2,7 @@
 
 BEGIN;
 
--- suppression des fonctions INSERT
+-- drop insert functions
 DROP FUNCTION new_perfume;
 DROP FUNCTION new_tag;
 

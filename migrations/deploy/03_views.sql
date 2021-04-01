@@ -2,7 +2,7 @@
 
 BEGIN;
 
--- création d'une view qui permet de récupérer toutes les informations d'un parfum 
+-- create a view that displays all the information of a perfume
 CREATE VIEW all_from_perfumes AS 
 SELECT DISTINCT
 	perfume.id,
@@ -26,7 +26,7 @@ FROM perfume
 GROUP BY perfume.id, brand.name, gender.type, intensity.type
 ORDER BY brand.name;
 
--- création d'une vue qui affiche les marques et le nom des parfums associés
+-- create a view that displays the brands and the name of the associated perfumes
 CREATE VIEW brands_have_perfumes AS
 SELECT DISTINCT brand.id, brand.name brand, 
 ARRAY_AGG(DISTINCT perfume.name) perfume 
@@ -35,7 +35,7 @@ FROM brand
 GROUP BY brand.id
 ORDER BY brand.name;
 
--- création d'une vue qui affiche les différents genre et les parfums associés
+-- create a view that displays the different genders and associated perfumes
 CREATE VIEW perfume_genders AS
 SELECT DISTINCT gender.id, gender.type,
 ARRAY_AGG(DISTINCT perfume.name) PERFUME

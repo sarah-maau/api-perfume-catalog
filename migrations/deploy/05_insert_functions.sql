@@ -2,7 +2,9 @@
 
 BEGIN;
 
--- création d'une fonction mono param permettant de créer un nouveau parfum
+-- only two funtions for the insert query (it's useless for scent, gender and intensity)
+
+-- create a mono param function that allows to create a new perfume
 CREATE FUNCTION new_perfume(perfume json) RETURNS perfume AS $$
 INSERT INTO perfume(
 	"name",
@@ -22,7 +24,7 @@ INSERT INTO perfume(
 RETURNING *;
 $$ LANGUAGE sql;
 
--- création d'une fonction mono param permettant de créer un nouveau tag
+-- create a mono param function that allows to create a new tag
 CREATE FUNCTION new_tag(tag json) RETURNS tag AS $$
 INSERT INTO tag (
 	label,

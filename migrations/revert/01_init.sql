@@ -2,9 +2,9 @@
 
 BEGIN;
 
--- suppression des tables
+-- drop tables
 DROP TABLE perfume_has_scent, perfume_has_tag, perfume, scent, tag, gender, intensity, brand;
--- suppression du domain posint
+-- drop posint domain
 DROP DOMAIN posint;
 
 COMMIT;

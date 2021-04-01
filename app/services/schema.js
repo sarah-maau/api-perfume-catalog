@@ -1,14 +1,14 @@
 const Joi = require("joi");
 
-// pour les routes post, toutes les propriétés sont requises mais pas pour les routes patch
-// création d'un schéma propre aux routes patch pour ne pas altérer les routes post
+// for post routes, all properties are required but not for patch routes
+// create a specific schema for post routes 
 /**
   *  @const {Object} variations - makes the parameters optional for PATCH route  
   *  @function patch
   *  @param {object} schema - schema is now optional
  */
 const variations = {
-    patch: (schema) => schema.optional()
+    post: (schema) => schema.required()
 };
 
 /**
@@ -39,7 +39,7 @@ const perfumeSchema = Joi.object({
  * @property {string} type - the gender's type : 5 characters min., required for the POST route
  */
 const genderSchema = Joi.object({
-    type: Joi.string().min(5).required()
+    type: Joi.string().min(5).alter(variations)
 });
 
 /**
@@ -48,7 +48,7 @@ const genderSchema = Joi.object({
  * @property {string} type - the intensity's type : 5 characters min., required for the POST route
  */
 const intensitySchema = Joi.object({
-    type: Joi.string().min(5).required()
+    type: Joi.string().min(5).alter(variations)
 });
 
 /**
@@ -57,9 +57,10 @@ const intensitySchema = Joi.object({
  * @property {string} label - the label's tag : 2 characters min., required for the POST route
  * @property {string} color - the color's tag : hexadecimal format (regex), if no color provided, #ff00ff is defined by default
  */
-const tagSchema = Joi.object({
-    label: Joi.string().min(2).required().alter(variations),
-    color: Joi.string().pattern(/^#[a-fA-F0-9]{2}[a-fA-F0-9]{2}[a-fA-F0-9]{2}$/).alter(variations)
+const regexColor = /^#[a-fA-F0-9]{2}[a-fA-F0-9]{2}[a-fA-F0-9]{2}$/;
+const tagSchema = Joi.object().keys({
+    label: Joi.string().min(2).alter(variations),
+    color: Joi.string().pattern(new RegExp(regexColor)).alter(variations)
 });
 
 /**
@@ -68,7 +69,7 @@ const tagSchema = Joi.object({
  * @property {string} node - the scent's note : 2 characters min., required for the POST route
  */
 const scentSchema = Joi.object({
-    note: Joi.string().min(2).required()
+    note: Joi.string().min(2).alter(variations)
 });
 
 /**
@@ -78,8 +79,8 @@ const scentSchema = Joi.object({
  * @property {number} scentId - the scent's id : positive integer, min. 1 required for the POST route
  */
 const perfumeScentSchema = Joi.object({
-    perfumeId: Joi.number().integer().positive().min(1),
-    scentId: Joi.number().integer().positive().min(1).required()
+    perfumeId: Joi.number().integer().positive().min(1).alter(variations),
+    scentId: Joi.number().integer().positive().min(1).alter(variations)
 });
 
 /**
@@ -89,8 +90,8 @@ const perfumeScentSchema = Joi.object({
  * @property {number} scentId - the tag's id : positive integer, min. 1 required for the POST route
  */
 const perfumeTagSchema = Joi.object({
-    perfumeId: Joi.number().integer().positive().min(1),
-    tagId: Joi.number().integer().positive().min(1).required()
+    perfumeId: Joi.number().integer().positive().min(1).alter(variations),
+    tagId: Joi.number().integer().positive().min(1).alter(variations)
 });
 
 
