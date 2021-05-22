@@ -77,7 +77,7 @@ Content-Type: application/json
 }
 
 ### PATCH /genders/:id
-PATCH  {{baseUrl}}/genders/8
+PATCH  {{baseUrl}}/genders/6
 Content-Type: application/json
 
 {

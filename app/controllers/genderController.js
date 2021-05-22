@@ -54,13 +54,13 @@ const genderController = {
     newGender: async (req, res) => {
         try {
             if(!req.body.type || req.body.type.length < 5) {
-                return res.status(403).json(`Merci de renseigner un type valide`);
+                return res.status(400).json(`Merci de renseigner un type valide`);
             }
 
             // check if gender already exists 
             const gender = await Gender.findOneByType(req.body.type);
             if(gender.id) {
-                return res.status(403).json(`Le genre ${gender.type} existe déjà sous l'id ${gender.id}`);
+                return res.status(400).json(`Le genre ${gender.type} existe déjà sous l'id ${gender.id}`);
             }
 
             const newGender = new Gender(req.body);
@@ -89,12 +89,12 @@ const genderController = {
         try {
             // there is just one parameter to change (type), so if there is no data we can't modify the gender
             if(!data.type && data.type.length < 5) {
-                return res.status(403).json(`Merci de renseigner un type valide`);
+                return res.status(400).json(`Merci de renseigner un type valide`);
             }
              // check if gender already exists 
             const gender = await Gender.findOneByType(data.type);
             if(gender.id) {
-                return res.status(403).json(`Le genre ${gender.type} existe déjà sous l'id ${gender.id}`);
+                return res.status(400).json(`Le genre ${gender.type} existe déjà sous l'id ${gender.id}`);
             }
             const updatedGender = new Gender(data);
             await updatedGender.update();
@@ -119,7 +119,7 @@ const genderController = {
         try {
             const gender = await Gender.findOne(id);
             await gender.delete();
-            res.status(201).json({ 
+            res.status(203).json({ 
                 ok: true,
                 message: `Le genre ${id} a bien été supprimé`
             });

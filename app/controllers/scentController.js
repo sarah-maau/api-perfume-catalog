@@ -56,13 +56,13 @@ const scentController = {
         
         try {
             if(!req.body.note || req.body.note.length < 2) {
-                return res.status(403).json(`Merci de renseigner une note valide`);
+                return res.status(400).json(`Merci de renseigner une note valide`);
             }
 
             // check if note already exists 
             const scent = await Scent.findOneByNote(req.body.note);
             if(scent.id) {
-                return res.status(403).json(`La note ${scent.note} existe déjà sous l'id ${scent.id}`);
+                return res.status(400).json(`La note ${scent.note} existe déjà sous l'id ${scent.id}`);
             }
 
             const newScent = new Scent(req.body);
@@ -92,7 +92,7 @@ const scentController = {
             // check if the association already exists 
             const association = await PerfumeHasScent.findOne(data.perfumeId, data.scentId);
             if(association.id) {
-                return res.status(403).json(`L'association entre le parfum n°${association.perfumeId} et la senteur n°${association.scentId} existe déjà`)
+                return res.status(400).json(`L'association entre le parfum n°${association.perfumeId} et la senteur n°${association.scentId} existe déjà`)
             }
 
             const newAssociation = new PerfumeHasScent(data);
@@ -121,13 +121,13 @@ const scentController = {
         try { 
             // there is just one parameter to change (note), so if there is no data we can't modify the scent
             if(!data.note && data.note.length < 2) {
-                return res.status(403).json(`Merci de renseigner une note valide`);
+                return res.status(400).json(`Merci de renseigner une note valide`);
             }
 
             // check if note already exists 
             const scent = await Scent.findOneByType(data.note);
             if(scent.id) {
-                return res.status(403).json(`La note ${scent.note} existe déjà sous l'id ${scent.id}`);
+                return res.status(400).json(`La note ${scent.note} existe déjà sous l'id ${scent.id}`);
             }
             const updatedScent = new Scent(data);
             await updatedScent.update();
@@ -152,7 +152,7 @@ const scentController = {
         try {
             const scent = await Scent.findOne(id);
             await scent.delete();
-            res.status(201).json({ 
+            res.status(203).json({ 
                 ok: true,
                 message: `La senteur ${id} a bien été supprimée`
             });

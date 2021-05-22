@@ -56,28 +56,28 @@ const perfumeController = {
 
         try {
             if(!req.body.name || req.body.name.length < 2 ) {
-                return res.status(403).json(`Merci de renseigner un nom de parfum valide`);
+                return res.status(400).json(`Merci de renseigner un nom de parfum valide`);
             }
             if(!req.body.creator || req.body.creator.length < 5 ) {
-                return res.status(403).json(`Merci de renseigner un nom de créateur valide`);
+                return res.status(400).json(`Merci de renseigner un nom de créateur valide`);
             }
             if(yearOfCreation > now) {
-                return res.status(403).json(`Le parfum ne peut avoir été créé après aujourd'hui !`);
+                return res.status(400).json(`Le parfum ne peut avoir été créé après aujourd'hui !`);
             }
             if(!req.body.brandId) {
-                return res.status(403).json(`Le parfum doit avoir une marque`);
+                return res.status(400).json(`Le parfum doit avoir une marque`);
             }
             if(!req.body.intensityId) {
-                return res.status(403).json(`Le parfum doit avoir une intensité`);
+                return res.status(400).json(`Le parfum doit avoir une intensité`);
             }
             if(!req.body.genderId) {
-                return res.status(403).json(`Le parfum doit avoir un genre`);
+                return res.status(400).json(`Le parfum doit avoir un genre`);
             }
 
             // check if perfume already exists
             const perfume = await Perfume.findOneByName(req.body.name);
             if (perfume.id) {
-                return res.status(403).json(`Le parfum parfum ${perfume.name} existe déjà`);
+                return res.status(400).json(`Le parfum parfum ${perfume.name} existe déjà`);
             }
 
             const newPerfume = new Perfume(req.body);
@@ -108,13 +108,13 @@ const perfumeController = {
 
             // check data input
             if(data.name && data.name.length < 2 ) {
-                return res.status(403).json(`Merci de renseigner un nom de parfum valide`);
+                return res.status(400).json(`Merci de renseigner un nom de parfum valide`);
             }
             if(data.creator && data.creator.length < 5 ) {
-                return res.status(403).json(`Merci de renseigner un nom de créateur valide`);
+                return res.status(400).json(`Merci de renseigner un nom de créateur valide`);
             }
             if(yearOfCreation > now) {
-                return res.status(403).json(`Le parfum ne peut avoir été créé après aujourd'hui !`);
+                return res.status(400).json(`Le parfum ne peut avoir été créé après aujourd'hui !`);
             }
             for (const field in data) {
                 if(typeof perfume[field] !== undefined) {
@@ -153,7 +153,7 @@ const perfumeController = {
         try {
             const perfume = await Perfume.findOne(id);
             await perfume.delete();
-            res.status(201).json({ 
+            res.status(203).json({ 
                 ok: true,
                 message: `${perfume.name} a bien été supprimé`
             });

@@ -54,13 +54,13 @@ const intensityController = {
     newIntensity: async (req, res) => {
         try {
             if(!req.body.type || req.body.type.length < 5) {
-                return res.status(403).json(`Merci de renseigner un type valide`);
+                return res.status(400).json(`Merci de renseigner un type valide`);
             }
 
             // check if intensity already exists 
             const intensity = await Intensity.findOneByType(req.body.type);
             if(intensity.id) {
-                return res.status(403).json(`L'intensité ${intensity.type} existe déjà sous l'id ${intensity.id}`);
+                return res.status(400).json(`L'intensité ${intensity.type} existe déjà sous l'id ${intensity.id}`);
             }
 
             const newIntensity = new Intensity(req.body);
@@ -89,13 +89,13 @@ const intensityController = {
         try { 
             // there is just one parameter to change (type), so if there is no data we can't modify the intensity
             if(!data.type && data.type.length < 5) {
-                return res.status(403).json(`Merci de renseigner un type valide`);
+                return res.status(400).json(`Merci de renseigner un type valide`);
             }
 
             // check if intensity already exists 
             const intensity = await Intensity.findOneByType(data.type);
             if(intensity.id) {
-                return res.status(403).json(`L'intensité ${intensity.type} existe déjà sous l'id ${intensity.id}`);
+                return res.status(400).json(`L'intensité ${intensity.type} existe déjà sous l'id ${intensity.id}`);
             }
 
             const updatedIntensity = new Intensity(data);
@@ -121,7 +121,7 @@ const intensityController = {
         try {
             const intensity = await Intensity.findOne(id);
             await intensity.delete();
-            res.status(201).json({ 
+            res.status(203).json({ 
                 ok: true,
                 message: `La concentration ${id} a bien été supprimée`
             });

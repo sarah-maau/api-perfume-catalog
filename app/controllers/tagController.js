@@ -58,19 +58,19 @@ const tagController = {
 
         try {
             if(!label || label.length < 2) {
-                return res.status(403).json(`Merci de renseigner un label valide`);
+                return res.status(400).json(`Merci de renseigner un label valide`);
             }
             if(!color) {
-                return res.status(403).json(`Merci de renseigner une couleur pour le tag`);
+                return res.status(400).json(`Merci de renseigner une couleur pour le tag`);
             }
             if(!regexHexa.test(color)) {
-                return res.status(403).json(`La couleur du tag ne respecte pas le format hexadécimal`);
+                return res.status(400).json(`La couleur du tag ne respecte pas le format hexadécimal`);
             }
 
             // check if the tag already exists 
             const tag = await Tag.findOneByLabelAndColor(label, color);
             if(tag.id) {
-                return res.status(403).json(`Le tag existe déjà sous l'id ${tag.id}`);
+                return res.status(400).json(`Le tag existe déjà sous l'id ${tag.id}`);
             }
             const newTag = new Tag(req.body);
             await newTag.insert();
@@ -99,7 +99,7 @@ const tagController = {
              // check if the association already exists 
             const association = await PerfumeHasTag.findOne(data.perfumeId, data.tagId);
             if(association.id) {
-                return res.status(403).json(`L'association entre le parfum n°${association.perfumeId} et le tag n°${association.tagId} existe déjà`)
+                return res.status(400).json(`L'association entre le parfum n°${association.perfumeId} et le tag n°${association.tagId} existe déjà`)
             }
             const newAssociation = new PerfumeHasTag(data);
             await newAssociation.insert();
@@ -125,22 +125,21 @@ const tagController = {
         const regexHexa = new RegExp(/^#[a-fA-F0-9]{2}[a-fA-F0-9]{2}[a-fA-F0-9]{2}$/);
 
         try {
-            console.log('coucou')
             const tagToUpdate = await Tag.findOne(id);
             console.log(tagToUpdate)
 
             if(data.label && data.label.length < 2) {
-                return res.status(403).json(`Merci de renseigner un label valide`);
+                return res.status(400).json(`Merci de renseigner un label valide`);
             }
 
             if(data.color && !regexHexa.test(data.color)) {
-                return res.status(403).json(`La couleur du tag ne respecte pas le format hexadécimal`);
+                return res.status(400).json(`La couleur du tag ne respecte pas le format hexadécimal`);
             }
 
             // check if the tag already exists 
             const tag = await Tag.findOneByLabelAndColor(data.label, data.color);
             if(tag.id) {
-                return res.status(403).json(`Le tag existe déjà sous l'id ${tag.id}`);
+                return res.status(400).json(`Le tag existe déjà sous l'id ${tag.id}`);
             }
 
             for (const field in data) {
@@ -172,7 +171,7 @@ const tagController = {
         try {
             const tag = await Tag.findOne(id);
             await tag.delete();
-            res.status(201).json({ 
+            res.status(203).json({ 
                 ok: true,
                 message: `Le tag ${id} a bien été supprimé`
             });
@@ -197,7 +196,7 @@ const tagController = {
         try {
             const association = await PerfumeHasTag.findOne(perfumeId, tagId);
             await association.delete();
-            res.status(201).json({ 
+            res.status(203).json({ 
                 ok: true,
                 message: `L'association entre le parfum ${perfumeId} et le tag ${tagId} a bien été supprimée`
             });
